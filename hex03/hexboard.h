@@ -1,15 +1,16 @@
 #ifndef HEXBOARD_H
 #define HEXBOARD_H
-#include <cstring>
+#include <string>
+#include "mainwindow.h"
 
 
 class hexBoard
 {
 public:
-    hexBoard();
+    hexBoard(MainWindow* window);
     ~hexBoard();
     checkStatus();
-    makeMove(std::string move, int player);
+    makeMove(std::string move, int player, MainWindow* window);
     clearBoard();
     getMoves();
 
@@ -20,3 +21,4 @@ private:
 };
 
 #endif // HEXBOARD_H
+

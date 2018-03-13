@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-03-12T21:18:22
+# Project created by QtCreator 2018-03-13T20:19:53
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = hex01
+TARGET = hex03
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -34,3 +34,8 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui
+
+DISTFILES += \
+    img/board.jpg \
+    img/blue.png \
+    img/red.png
