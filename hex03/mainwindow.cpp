@@ -6,8 +6,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    xOffset = 120;
-    yOffset = 118;
+    // setup pieces
+    int x = xOffset, y = yOffset;
+    for (int i = 0; i <= 10; ++i)
+    {
+        for (int j = 0; j <= 10; ++j)
+        {
+            pieces[i][j].setGeometry(x, y, pieceWidth, pieceHeight);
+            pieces[i][j].setText("");
+            pieces[i][j].setParent(this);
+            x += xDelta;
+        }
+        x = xOffset + (xDelta / 2) * (i + 1);
+        y += yDelta;
+    }
 }
 
 MainWindow::~MainWindow()
@@ -23,20 +35,25 @@ void MainWindow::on_buttonStart_clicked()
 
 bool MainWindow::setPic(int x, int y, QPixmap& pic)
 {
-    ui->labelStatus->setText(QString::number(x) + " " + QString::number(y));
     // set a pic on labels
     if (x == 0)
     {
         ui->labelBoard->setPixmap(pic);
     }
-    else
+    else if (x >= 1 && x <= 11 && y >=1 && y <= 11)
     {
-        QLabel* tempLable = new QLabel("", this);
-        tempLable->setText("hahaha");
-        tempLable->setGeometry((y-1) * 44 + (x - 1) * 22 + yOffset, (x-1) * 50 + xOffset, 47, 54);
-        tempLable->setPixmap(pic);
-        tempLable->show();
+        pieces[x - 1][y - 1].setPixmap(pic);
+        pieces[x - 1][y - 1].show();
     }
+
+    return true;
+}
+
+bool MainWindow::clearPieces()
+{
+    for (int i = 0; i <= 10; ++i)
+        for (int j = 0; j <= 10; ++j)
+            pieces[i][j].hide();
 
     return true;
 }
