@@ -20,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
         x = xOffset + (xDelta / 2) * (i + 1);
         y += yDelta;
     }
+    // nxp!
+    pieces[10][0].setGeometry(336, 500, pieceWidth, pieceHeight);
+
 }
 
 MainWindow::~MainWindow()
