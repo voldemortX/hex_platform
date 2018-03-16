@@ -29,8 +29,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    const short xOffset = 116 + 0;
-    const short yOffset = 83 + 35;
+    const short xOffset = 116 + 0 - 20;
+    const short yOffset = 83 - 10;
     const short xDelta = 44;
     const short yDelta = 38;
     const short pieceWidth = 47;

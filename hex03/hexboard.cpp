@@ -7,7 +7,7 @@
 hexBoard::hexBoard(MainWindow* window)
 {
     QPixmap tempPix;
-    tempPix.load("../hex03/img/board.jpg");
+    tempPix.load("img/board.jpg");
     bool flag = window->setPic(0, 0, tempPix);
     if (!flag)
     {
@@ -30,9 +30,9 @@ bool hexBoard::makeMove(std::string move, int player, MainWindow* window)
 
     board[x][y] = player;
     QPixmap tempPix;
-    bool flag = tempPix.load("../hex03/img/blue.png");
+    bool flag = tempPix.load("img/blue.png");
     if (player == 1)
-        flag = tempPix.load("../hex03/img/red.png");
+        flag = tempPix.load("img/red.png");
     else if (player != 2)
         return false;
 
@@ -63,13 +63,15 @@ std::string hexBoard::getMoves()
 }
 short hexBoard::checkStatus()
 {
+    // 0: ongoing, 1: red won, 2: blue won
     short flag[13][13];
     for(int i = 1;i <= 11 ;i++)
     {
-        if(searchBoard(RED,0,i,flag)) return 1;
-        if(searchBoard(BLUE,i,0,flag)) return 1;
+        if(searchBoard(RED,1,i,flag)) status = 1;
+        if(searchBoard(BLUE,i,1,flag)) status = 2;
     }
-    return 0;
+    status = 0;
+    return status;
 }
 bool hexBoard::searchBoard(short type, short posx, short posy, short flag[][13])
 {
