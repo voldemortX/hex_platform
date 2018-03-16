@@ -213,6 +213,10 @@ release/moc_mainwindow.cpp: ../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/Q
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtouchdevice.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qtabwidget.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qicon.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/QPixmap \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QLabel \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qlabel.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qframe.h \
 		../hex03/mainwindow.h \
 		release/moc_predefs.h \
 		../../../../sw/qt/5.9/mingw53_32/bin/moc.exe
@@ -343,6 +347,11 @@ release/main.o: ../hex03/main.cpp ../hex03/mainwindow.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtouchdevice.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qtabwidget.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qicon.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/QPixmap \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QLabel \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qlabel.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qframe.h \
+		../hex03/hexboard.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QApplication \
 		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qapplication.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qcoreapplication.h \
@@ -456,57 +465,23 @@ release/mainwindow.o: ../hex03/mainwindow.cpp ../hex03/mainwindow.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtouchdevice.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qtabwidget.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qicon.h \
-		ui_mainwindow.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/QVariant \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QAction \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qaction.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qactiongroup.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QApplication \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qapplication.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qcoreapplication.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qeventloop.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qdesktopwidget.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qguiapplication.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qinputmethod.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QButtonGroup \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qbuttongroup.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QFrame \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qframe.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QHeaderView \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qheaderview.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qabstractitemview.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qabstractscrollarea.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qabstractitemmodel.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qitemselectionmodel.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qabstractitemdelegate.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qstyleoption.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qabstractspinbox.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qvalidator.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qregularexpression.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qslider.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qabstractslider.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qstyle.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qtabbar.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qrubberband.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/QPixmap \
 		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QLabel \
 		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qlabel.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QMenu \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qmenu.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QMenuBar \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qmenubar.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QPushButton \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qpushbutton.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qabstractbutton.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QStatusBar \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qstatusbar.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QToolBar \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qtoolbar.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QWidget
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qframe.h \
+		ui_mainwindow.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QFileDialog \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qfiledialog.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qdir.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qfileinfo.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\hex03\mainwindow.cpp
 
 release/hexboard.o: ../hex03/hexboard.cpp ../hex03/hexboard.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/QPainter \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpainter.h \
+		../hex03/mainwindow.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QMainWindow \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qmainwindow.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qtwidgetsglobal.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtguiglobal.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qglobal.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qconfig-bootstrapped.h \
@@ -530,63 +505,95 @@ release/hexboard.o: ../hex03/hexboard.cpp ../hex03/hexboard.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qnumeric.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qversiontagging.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtgui-config.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qnamespace.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qrect.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qmargins.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qsize.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qpoint.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qscopedpointer.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpixmap.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpaintdevice.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qtwidgets-config.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qwidget.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qwindowdefs.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qobjectdefs.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qnamespace.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qobjectdefs_impl.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qwindowdefs_win.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qcolor.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qrgb.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qstringlist.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qobject.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qstring.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qchar.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qbytearray.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qrefcount.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qarraydata.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qstringbuilder.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qlist.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qalgorithms.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qiterator.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qrefcount.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qarraydata.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qhashfunctions.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qchar.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qpair.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qbytearraylist.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qbytearray.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qstring.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qstringbuilder.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qstringlist.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qregexp.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qstringmatcher.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qrgba64.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qsharedpointer.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qshareddata.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qhash.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qsharedpointer_impl.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qobject.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qcoreevent.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qscopedpointer.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qmetatype.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qvarlengtharray.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qcontainerfwd.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qobject_impl.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qimage.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpixelformat.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtransform.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qmargins.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpaintdevice.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qrect.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qsize.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qpoint.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpalette.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qcolor.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qrgb.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qrgba64.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qbrush.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qvector.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qmatrix.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpolygon.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qvector.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qregion.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qdatastream.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qiodevice.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qline.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtransform.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpainterpath.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qimage.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpixelformat.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpixmap.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qsharedpointer.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qshareddata.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qhash.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qsharedpointer_impl.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qfont.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qfontmetrics.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qfontinfo.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qsizepolicy.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qcursor.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qkeysequence.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qevent.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qvariant.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qmap.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qdebug.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qtextstream.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qlocale.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qset.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qcontiguouscache.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qurl.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qurlquery.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qfile.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/qfiledevice.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qvector2d.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtouchdevice.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qtabwidget.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qicon.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/QPixmap \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QLabel \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qlabel.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qframe.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/QPainter \
+		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpainter.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qtextoption.h \
 		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qpen.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qbrush.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qfontinfo.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qfont.h \
-		../../../../sw/qt/5.9/mingw53_32/include/QtGui/qfontmetrics.h
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/QMessageBox \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qmessagebox.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtWidgets/qdialog.h \
+		../../../../sw/qt/5.9/mingw53_32/include/QtCore/QString
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\hexboard.o ..\hex03\hexboard.cpp
 
 release/moc_mainwindow.o: release/moc_mainwindow.cpp 

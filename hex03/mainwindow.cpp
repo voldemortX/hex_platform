@@ -1,11 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QFileDialog>
+#include <string>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    redExe = "";
+    blueExe = "";
     // setup pieces
     int x = xOffset, y = yOffset;
     for (int i = 0; i <= 10; ++i)
@@ -54,9 +59,24 @@ bool MainWindow::setPic(int x, int y, QPixmap& pic)
 
 bool MainWindow::clearPieces()
 {
+    // hide all pieces for real
     for (int i = 0; i <= 10; ++i)
         for (int j = 0; j <= 10; ++j)
             pieces[i][j].hide();
 
     return true;
+}
+
+void MainWindow::on_buttonLoadRed_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
+    redExe = filePath.toStdString();
+    ui->redFile->setPlainText(filePath);
+}
+
+void MainWindow::on_buttonLoadBlue_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
+    blueExe = filePath.toStdString();
+    ui->blueFile->setPlainText(filePath);
 }

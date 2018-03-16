@@ -193,7 +193,6 @@ Makefile: ../hex03/hex03.pro ../../../../sw/qt/5.9/mingw53_32/mkspecs/win32-g++/
 		../../../../sw/qt/5.9/mingw53_32/mkspecs/features/qt_config.prf \
 		../../../../sw/qt/5.9/mingw53_32/mkspecs/win32-g++/qmake.conf \
 		../../../../sw/qt/5.9/mingw53_32/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		../../../../sw/qt/5.9/mingw53_32/mkspecs/features/exclusive_builds.prf \
 		../../../../sw/qt/5.9/mingw53_32/mkspecs/features/toolchain.prf \
 		../../../../sw/qt/5.9/mingw53_32/mkspecs/features/default_pre.prf \
@@ -353,7 +352,6 @@ Makefile: ../hex03/hex03.pro ../../../../sw/qt/5.9/mingw53_32/mkspecs/win32-g++/
 ../../../../sw/qt/5.9/mingw53_32/mkspecs/features/qt_config.prf:
 ../../../../sw/qt/5.9/mingw53_32/mkspecs/win32-g++/qmake.conf:
 ../../../../sw/qt/5.9/mingw53_32/mkspecs/features/spec_post.prf:
-.qmake.stash:
 ../../../../sw/qt/5.9/mingw53_32/mkspecs/features/exclusive_builds.prf:
 ../../../../sw/qt/5.9/mingw53_32/mkspecs/features/toolchain.prf:
 ../../../../sw/qt/5.9/mingw53_32/mkspecs/features/default_pre.prf:

@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QPixmap>
 #include <QLabel>
+#include <string>
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,10 @@ public:
 private slots:
     void on_buttonStart_clicked();
 
+    void on_buttonLoadRed_clicked();
+
+    void on_buttonLoadBlue_clicked();
+
 private:
     Ui::MainWindow *ui;
     const short xOffset = 116 + 0;
@@ -31,6 +36,8 @@ private:
     const short pieceWidth = 47;
     const short pieceHeight = 53;
     QLabel pieces[11][11];
+    std::string redExe;
+    std::string blueExe;
 };
 
 #endif // MAINWINDOW_H

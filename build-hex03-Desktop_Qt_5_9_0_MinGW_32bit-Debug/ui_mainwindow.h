@@ -21,6 +21,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTextBrowser>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -54,6 +55,11 @@ public:
     QLabel *label_4;
     QLabel *labelStatus;
     QLabel *labelBoard;
+    QPushButton *buttonLoadRed;
+    QPushButton *buttonLoadBlue;
+    QTextBrowser *redFile;
+    QTextBrowser *blueFile;
+    QTextBrowser *historyDisplay;
     QMenuBar *menuBar;
     QMenu *menuHEX;
     QToolBar *mainToolBar;
@@ -246,6 +252,27 @@ public:
         labelBoard = new QLabel(centralWidget);
         labelBoard->setObjectName(QStringLiteral("labelBoard"));
         labelBoard->setGeometry(QRect(20, 10, 900, 600));
+        buttonLoadRed = new QPushButton(centralWidget);
+        buttonLoadRed->setObjectName(QStringLiteral("buttonLoadRed"));
+        buttonLoadRed->setGeometry(QRect(990, 120, 81, 31));
+        buttonLoadRed->setFont(font1);
+        buttonLoadRed->setAutoDefault(false);
+        buttonLoadRed->setFlat(false);
+        buttonLoadBlue = new QPushButton(centralWidget);
+        buttonLoadBlue->setObjectName(QStringLiteral("buttonLoadBlue"));
+        buttonLoadBlue->setGeometry(QRect(990, 310, 81, 31));
+        buttonLoadBlue->setFont(font1);
+        buttonLoadBlue->setAutoDefault(false);
+        buttonLoadBlue->setFlat(false);
+        redFile = new QTextBrowser(centralWidget);
+        redFile->setObjectName(QStringLiteral("redFile"));
+        redFile->setGeometry(QRect(990, 40, 211, 61));
+        blueFile = new QTextBrowser(centralWidget);
+        blueFile->setObjectName(QStringLiteral("blueFile"));
+        blueFile->setGeometry(QRect(990, 230, 211, 61));
+        historyDisplay = new QTextBrowser(centralWidget);
+        historyDisplay->setObjectName(QStringLiteral("historyDisplay"));
+        historyDisplay->setGeometry(QRect(990, 390, 231, 91));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -267,6 +294,8 @@ public:
         buttonStart->setDefault(false);
         buttonSave->setDefault(false);
         buttonExchange->setDefault(false);
+        buttonLoadRed->setDefault(false);
+        buttonLoadBlue->setDefault(false);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -284,6 +313,8 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "Status:    ", Q_NULLPTR));
         labelStatus->setText(QString());
         labelBoard->setText(QString());
+        buttonLoadRed->setText(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
+        buttonLoadBlue->setText(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
         menuHEX->setTitle(QApplication::translate("MainWindow", "HEX", Q_NULLPTR));
     } // retranslateUi
 

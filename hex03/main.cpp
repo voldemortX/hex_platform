@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     hex.makeMove("CD", 2, &w);
     hex.makeMove("AB", 2, &w);
     hex.makeMove("KK", 1, &w);
-*/
+
     std::string tempString = "";
     for (char i = 'K'; i <= 'K'; ++i)
         for (char j = 'B'; j <= 'B'; ++j)
@@ -23,6 +23,6 @@ int main(int argc, char *argv[])
             hex.makeMove(tempString + i + j, 1, &w);
             //Sleep(300);
         }
-
+*/
     return a.exec();
 }
