@@ -3,7 +3,6 @@
 #include <string>
 #include "mainwindow.h"
 
-
 class hexBoard
 {
 public:
@@ -17,8 +16,11 @@ public:
 private:
     short status;  // 0: Ongoing, 1: Red won, 2: Blue won
     short turn;  // 1: red's turn, 2: blue's turn
-    short board[12][12];  // indices start from 1, 0: nothing, 1: red, 2:blue
+    short board[13][13];  // indices start from 1, 0: nothing, 1: red, 2:blue
     std::string moves;  // history
+    bool searchBoard(short type,short posx,short posy,short flag[][13]);
+    const short RED=1;
+    const short BLUE=2;
 };
 
 #endif // HEXBOARD_H

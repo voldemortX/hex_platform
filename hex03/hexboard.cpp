@@ -50,8 +50,8 @@ bool hexBoard::makeMove(std::string move, int player, MainWindow* window)
 }
 bool hexBoard::clearBoard(MainWindow* window)
 {
-    for (int i = 0; i <= 11; ++i)
-        for (int j = 0; j <= 11; ++j)
+    for (int i = 0; i <= 12; ++i)
+        for (int j = 0; j <= 12; ++j)
             board[i][j] = 0;
     moves = "";
     status = 0;
@@ -61,4 +61,38 @@ std::string hexBoard::getMoves()
 {
     return moves;
 }
-
+short hexBoard::checkStatus()
+{
+    short flag[13][13];
+    for(int i = 1;i <= 11 ;i++)
+    {
+        if(searchBoard(RED,0,i,flag)) return 1;
+        if(searchBoard(BLUE,i,0,flag)) return 1;
+    }
+    return 0;
+}
+bool hexBoard::searchBoard(short type, short posx, short posy, short flag[][13])
+{
+    if(((type == RED) && (posx == 11))||((type == BLUE) && (posy == 11))) return 1;
+    flag[posx][posy] = 1;
+    short newx,newy;
+    short diff[6][2]={
+        {0,-1},//up
+        {0,1},//down
+        {-1,0},//left
+        {1,0},//right
+        {-1,1},//left-down
+        {1,-1},//right-up
+    };
+    for (int i = 0; i < 6; i++)
+    {
+        newx = posx + diff[i][0];
+        newy = posy + diff[i][1];
+        if((board[newx][newy] == type) && (!flag[newx][newy]))
+        {
+            if(searchBoard(type,newx,newy,flag)) return 1;
+        }
+    }
+    flag[posx][posy] = 0;
+    return 0;
+}
