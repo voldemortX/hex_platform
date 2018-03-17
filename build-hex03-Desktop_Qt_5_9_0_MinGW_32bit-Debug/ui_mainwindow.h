@@ -17,12 +17,9 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTextBrowser>
-#include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -60,9 +57,6 @@ public:
     QTextBrowser *redFile;
     QTextBrowser *blueFile;
     QTextBrowser *historyDisplay;
-    QMenuBar *menuBar;
-    QMenu *menuHEX;
-    QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -70,6 +64,8 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->resize(1242, 761);
+        MainWindow->setMinimumSize(QSize(1242, 761));
+        MainWindow->setMaximumSize(QSize(1242, 761));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         line = new QFrame(centralWidget);
@@ -251,7 +247,7 @@ public:
         labelStatus->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         labelBoard = new QLabel(centralWidget);
         labelBoard->setObjectName(QStringLiteral("labelBoard"));
-        labelBoard->setGeometry(QRect(20, 10, 900, 600));
+        labelBoard->setGeometry(QRect(0, 0, 900, 600));
         buttonLoadRed = new QPushButton(centralWidget);
         buttonLoadRed->setObjectName(QStringLiteral("buttonLoadRed"));
         buttonLoadRed->setGeometry(QRect(990, 120, 81, 31));
@@ -266,28 +262,17 @@ public:
         buttonLoadBlue->setFlat(false);
         redFile = new QTextBrowser(centralWidget);
         redFile->setObjectName(QStringLiteral("redFile"));
-        redFile->setGeometry(QRect(990, 40, 211, 61));
+        redFile->setGeometry(QRect(990, 40, 231, 61));
         blueFile = new QTextBrowser(centralWidget);
         blueFile->setObjectName(QStringLiteral("blueFile"));
-        blueFile->setGeometry(QRect(990, 230, 211, 61));
+        blueFile->setGeometry(QRect(990, 230, 231, 61));
         historyDisplay = new QTextBrowser(centralWidget);
         historyDisplay->setObjectName(QStringLiteral("historyDisplay"));
-        historyDisplay->setGeometry(QRect(990, 390, 231, 91));
+        historyDisplay->setGeometry(QRect(990, 400, 231, 81));
         MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1242, 23));
-        menuHEX = new QMenu(menuBar);
-        menuHEX->setObjectName(QStringLiteral("menuHEX"));
-        MainWindow->setMenuBar(menuBar);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
-
-        menuBar->addAction(menuHEX->menuAction());
 
         retranslateUi(MainWindow);
 
@@ -315,7 +300,6 @@ public:
         labelBoard->setText(QString());
         buttonLoadRed->setText(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
         buttonLoadBlue->setText(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
-        menuHEX->setTitle(QApplication::translate("MainWindow", "HEX", Q_NULLPTR));
     } // retranslateUi
 
 };
