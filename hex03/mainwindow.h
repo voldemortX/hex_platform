@@ -66,7 +66,7 @@ private:
     std::string blueExe;
     void startGame();
     void timeWin();
-    std::string penddingMove();
+    QString penddingMove();
     void resetTimer();
     void refreshTimerLabel();
 }; 

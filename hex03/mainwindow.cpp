@@ -36,6 +36,10 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    if(p[0])
+        delete p[0];
+    if(p[1])
+        delete p[1];
 }
 
 void MainWindow::linkBoard(hexBoard* hexIn)
@@ -48,7 +52,7 @@ void MainWindow::on_buttonStart_clicked()
 {
     // start a NEW game between AIs
     startGame();
-    std::string lastMove = "";
+    QString lastMove = "";
     //start a timer
     resetTimer();
     qDebug() << QString::fromStdString(redExe) << "555\n";
@@ -59,20 +63,23 @@ void MainWindow::on_buttonStart_clicked()
 
     p[RED-1]->start(QString::fromStdString(redExe));
     qDebug() << "/red start()" << "\n";
-    p[RED-1]->write("start ");
+    p[RED-1]->write("start\n");
     p[RED-1]->write("red\n");
     lastMove = penddingMove();
     if (lastMove == "")
         return;
     p[BLUE-1]->start(QString::fromStdString(blueExe));
-    p[BLUE-1]->write("start ");
+    p[BLUE-1]->write("start\n");
     p[BLUE-1]->write("blue\n");
     hex->setTurn(1);
 
     while(1)
     {
         short turn = hex->getTurn();
-        p[turn]->write(QString::fromStdString("move " + lastMove + "\n").toLatin1().data());
+        p[turn]->write("move ");
+        qDebug() << lastMove.toLatin1().data();
+        p[turn]->write(lastMove.toLatin1().data());
+        p[turn]->write("\n");
         lastMove = penddingMove();
         if (lastMove == "")
             return;
@@ -81,7 +88,7 @@ void MainWindow::on_buttonStart_clicked()
 
 }
 
-std::string MainWindow::penddingMove()
+QString MainWindow::penddingMove()
 {
     qDebug() << "penddingMove()" << "\n";
     short turn = hex->getTurn();
@@ -112,8 +119,10 @@ std::string MainWindow::penddingMove()
              ui->labelStatus->setText("Blue win");
              QMessageBox::information(NULL, "", "Blue win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
          }
-         qDebug() << "" + QString(move).toStdString()[5] + QString(move).toStdString()[6] << "\n";
-         return "" + QString(move).toStdString()[5] + QString(move).toStdString()[6];
+         QString temp = "";
+         temp = temp + move[5] + move[6];
+         qDebug() << temp << "\n";
+         return temp;
     }
     else
     {
@@ -217,12 +226,16 @@ void MainWindow::on_buttonUnloadRed_clicked()
 {
     ui->redFile->setPlainText("");
     redExe = "";
+    if(p[0])
+        delete p[0];
 }
 
 void MainWindow::on_buttonUnloadBlue_clicked()
 {
     ui->blueFile->setPlainText("");
     blueExe = "";
+    if(p[1])
+        delete p[1];
 }
 
 void MainWindow::on_buttonExchange_clicked()
