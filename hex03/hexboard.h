@@ -1,16 +1,21 @@
 #ifndef HEXBOARD_H
 #define HEXBOARD_H
 #include <string>
-#include "mainwindow.h"
+#include <QPainter>
+#include <QMessageBox>
+#include <QString>
+
 
 class hexBoard
 {
 public:
-    hexBoard(MainWindow* window);
+    hexBoard();
     ~hexBoard();
     short checkStatus();
-    bool makeMove(std::string move, int player, MainWindow* window);
-    bool clearBoard(MainWindow* window);
+    bool makeMove(short x, short y, short player);
+    bool clearBoard();
+    void setTurn(short turnIn);
+    short getTurn();
     std::string getMoves();
 
 private:

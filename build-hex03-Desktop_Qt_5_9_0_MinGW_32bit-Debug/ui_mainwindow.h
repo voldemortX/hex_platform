@@ -57,6 +57,10 @@ public:
     QTextBrowser *redFile;
     QTextBrowser *blueFile;
     QTextBrowser *historyDisplay;
+    QPushButton *buttonUnloadRed;
+    QPushButton *buttonUnloadBlue;
+    QLabel *timerRed;
+    QLabel *timerBlue;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -213,7 +217,7 @@ public:
         label_3->setAlignment(Qt::AlignCenter);
         buttonStart = new QPushButton(centralWidget);
         buttonStart->setObjectName(QStringLiteral("buttonStart"));
-        buttonStart->setGeometry(QRect(30, 660, 81, 31));
+        buttonStart->setGeometry(QRect(30, 660, 171, 31));
         QFont font1;
         font1.setPointSize(13);
         font1.setBold(true);
@@ -223,13 +227,13 @@ public:
         buttonStart->setFlat(false);
         buttonSave = new QPushButton(centralWidget);
         buttonSave->setObjectName(QStringLiteral("buttonSave"));
-        buttonSave->setGeometry(QRect(150, 660, 81, 31));
+        buttonSave->setGeometry(QRect(250, 660, 81, 31));
         buttonSave->setFont(font1);
         buttonSave->setAutoDefault(false);
         buttonSave->setFlat(false);
         buttonExchange = new QPushButton(centralWidget);
         buttonExchange->setObjectName(QStringLiteral("buttonExchange"));
-        buttonExchange->setGeometry(QRect(270, 660, 111, 31));
+        buttonExchange->setGeometry(QRect(380, 660, 111, 31));
         buttonExchange->setFont(font1);
         buttonExchange->setAutoDefault(false);
         buttonExchange->setFlat(false);
@@ -269,6 +273,34 @@ public:
         historyDisplay = new QTextBrowser(centralWidget);
         historyDisplay->setObjectName(QStringLiteral("historyDisplay"));
         historyDisplay->setGeometry(QRect(990, 400, 231, 81));
+        buttonUnloadRed = new QPushButton(centralWidget);
+        buttonUnloadRed->setObjectName(QStringLiteral("buttonUnloadRed"));
+        buttonUnloadRed->setGeometry(QRect(1080, 120, 81, 31));
+        buttonUnloadRed->setFont(font1);
+        buttonUnloadRed->setAutoDefault(false);
+        buttonUnloadRed->setFlat(false);
+        buttonUnloadBlue = new QPushButton(centralWidget);
+        buttonUnloadBlue->setObjectName(QStringLiteral("buttonUnloadBlue"));
+        buttonUnloadBlue->setGeometry(QRect(1080, 310, 81, 31));
+        buttonUnloadBlue->setFont(font1);
+        buttonUnloadBlue->setAutoDefault(false);
+        buttonUnloadBlue->setFlat(false);
+        timerRed = new QLabel(centralWidget);
+        timerRed->setObjectName(QStringLiteral("timerRed"));
+        timerRed->setGeometry(QRect(1170, 120, 51, 31));
+        QFont font2;
+        font2.setPointSize(15);
+        font2.setBold(true);
+        font2.setWeight(75);
+        timerRed->setFont(font2);
+        timerRed->setTextFormat(Qt::RichText);
+        timerRed->setAlignment(Qt::AlignCenter);
+        timerBlue = new QLabel(centralWidget);
+        timerBlue->setObjectName(QStringLiteral("timerBlue"));
+        timerBlue->setGeometry(QRect(1170, 310, 51, 31));
+        timerBlue->setFont(font2);
+        timerBlue->setTextFormat(Qt::RichText);
+        timerBlue->setAlignment(Qt::AlignCenter);
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
@@ -281,6 +313,8 @@ public:
         buttonExchange->setDefault(false);
         buttonLoadRed->setDefault(false);
         buttonLoadBlue->setDefault(false);
+        buttonUnloadRed->setDefault(false);
+        buttonUnloadBlue->setDefault(false);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -292,7 +326,7 @@ public:
         label->setText(QApplication::translate("MainWindow", "Red\345\205\210\346\211\213", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "Blue\345\220\216\346\211\213", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "History", Q_NULLPTR));
-        buttonStart->setText(QApplication::translate("MainWindow", "Start", Q_NULLPTR));
+        buttonStart->setText(QApplication::translate("MainWindow", "Start/Clear", Q_NULLPTR));
         buttonSave->setText(QApplication::translate("MainWindow", "Save", Q_NULLPTR));
         buttonExchange->setText(QApplication::translate("MainWindow", "Exchange", Q_NULLPTR));
         label_4->setText(QApplication::translate("MainWindow", "Status:    ", Q_NULLPTR));
@@ -300,6 +334,10 @@ public:
         labelBoard->setText(QString());
         buttonLoadRed->setText(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
         buttonLoadBlue->setText(QApplication::translate("MainWindow", "Load", Q_NULLPTR));
+        buttonUnloadRed->setText(QApplication::translate("MainWindow", "Unload", Q_NULLPTR));
+        buttonUnloadBlue->setText(QApplication::translate("MainWindow", "Unload", Q_NULLPTR));
+        timerRed->setText(QApplication::translate("MainWindow", "/", Q_NULLPTR));
+        timerBlue->setText(QApplication::translate("MainWindow", "/", Q_NULLPTR));
     } // retranslateUi
 
 };

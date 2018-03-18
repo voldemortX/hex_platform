@@ -487,7 +487,7 @@
      <rect>
       <x>30</x>
       <y>660</y>
-      <width>81</width>
+      <width>171</width>
       <height>31</height>
      </rect>
     </property>
@@ -499,7 +499,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Start</string>
+     <string>Start/Clear</string>
     </property>
     <property name="autoDefault">
      <bool>false</bool>
@@ -514,7 +514,7 @@
    <widget class="QPushButton" name="buttonSave">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>250</x>
       <y>660</y>
       <width>81</width>
       <height>31</height>
@@ -543,7 +543,7 @@
    <widget class="QPushButton" name="buttonExchange">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>380</x>
       <y>660</y>
       <width>111</width>
       <height>31</height>
@@ -722,6 +722,116 @@
       <width>231</width>
       <height>81</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonUnloadRed">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>120</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Unload</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="buttonUnloadBlue">
+    <property name="geometry">
+     <rect>
+      <x>1080</x>
+      <y>310</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Unload</string>
+    </property>
+    <property name="autoDefault">
+     <bool>false</bool>
+    </property>
+    <property name="default">
+     <bool>false</bool>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timerRed">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>120</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>/</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::RichText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timerBlue">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>310</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>/</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::RichText</enum>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
