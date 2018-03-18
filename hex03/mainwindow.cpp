@@ -49,7 +49,8 @@ void MainWindow::on_buttonStart_clicked()
     // start a NEW game between AIs
     startGame();
     std::string lastMove = "";
-
+    //start a timer
+    resetTimer();
     qDebug() << QString::fromStdString(redExe) << "555\n";
     if((!p[RED-1] || !p[BLUE-1])||(redExe == "" || blueExe == ""))
     {
@@ -58,13 +59,13 @@ void MainWindow::on_buttonStart_clicked()
 
     p[RED-1]->start(QString::fromStdString(redExe));
     qDebug() << "/red start()" << "\n";
-    p[RED-1]->write("start\n");
+    p[RED-1]->write("start ");
     p[RED-1]->write("red\n");
     lastMove = penddingMove();
     if (lastMove == "")
         return;
     p[BLUE-1]->start(QString::fromStdString(blueExe));
-    p[BLUE-1]->write("start\n");
+    p[BLUE-1]->write("start ");
     p[BLUE-1]->write("blue\n");
     hex->setTurn(1);
 
@@ -243,3 +244,35 @@ void MainWindow::on_buttonSave_clicked()
     file.close();
 
 }
+void MainWindow::resetTimer()
+{
+
+    if(timer != -1)
+        this->killTimer(timer);
+    time[0] = time[1] = 0;
+    timer = this->startTimer(1000);
+
+}
+
+void MainWindow::timerEvent(QTimerEvent *event)
+{
+    if(!hex->checkStatus())
+    {
+        time[hex->getTurn()-1]++;
+        refreshTimerLabel();
+    }
+}
+void MainWindow::refreshTimerLabel()
+{
+    int minute = time[0] / 60;
+    int second = time[0] % 60;
+    QString time_string;
+    time_string = QString("%1:%2").arg(minute,2,10,QChar('0')).arg(second,2,10,QChar('0'));
+    ui->timerRed->setText(time_string);
+    minute = time[1] / 60;
+    second = time[1] % 60;
+    time_string = QString("%1:%2").arg(minute,2,10,QChar('0')).arg(second,2,10,QChar('0'));
+    ui->timerBlue->setText(time_string);
+}
+
+

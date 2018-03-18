@@ -13,7 +13,7 @@
 #include <QFile>
 #include <QTextCodec>
 #include "hexboard.h"
-
+#include <QTimerEvent>
 
 namespace Ui {
 class MainWindow;
@@ -31,7 +31,7 @@ public:
     bool setPic(short x, short y, short player);
     bool clearPieces();
     void linkBoard(hexBoard* hexIn);
-
+    virtual void timerEvent(QTimerEvent *event);
 private slots:
     void on_buttonStart_clicked();
 
@@ -59,12 +59,16 @@ private:
     const short pieceWidth = 47;
     const short pieceHeight = 53;
     const int maxTime = 30000;  // step time
+    int timer = -1;
+    int time[2] = {0};
     QLabel pieces[11][11];
     std::string redExe;
     std::string blueExe;
     void startGame();
     void timeWin();
     std::string penddingMove();
+    void resetTimer();
+    void refreshTimerLabel();
 }; 
 
 #endif // MAINWINDOW_H
