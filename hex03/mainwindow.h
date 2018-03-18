@@ -19,6 +19,8 @@ namespace Ui {
 class MainWindow;
 }
 
+extern QProcess* p[2];
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -48,6 +50,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     hexBoard* hex;
+    const short RED=1;
+    const short BLUE=2;
     const short xOffset = 116 - 20;
     const short yOffset = 83 - 10;
     const short xDelta = 44;
@@ -58,6 +62,9 @@ private:
     QLabel pieces[11][11];
     std::string redExe;
     std::string blueExe;
-};
+    void startGame();
+    void timeWin();
+    std::string penddingMove();
+}; 
 
 #endif // MAINWINDOW_H

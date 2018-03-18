@@ -2,6 +2,7 @@
 #include "hexboard.h"
 #include <QApplication>
 #include <synchapi.h>
+QProcess* p[2] = {NULL, NULL};
 
 int main(int argc, char *argv[])
 {
