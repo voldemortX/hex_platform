@@ -29,9 +29,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    bool setPic(short x, short y, short player);
+    bool setPic(short x, short y, short player);  // uses 12 when "who" uses 01
     bool clearPieces();
     void linkBoard(hexBoard* hexIn);
+
 private slots:
     void on_buttonStart_clicked();
 
@@ -47,9 +48,11 @@ private slots:
 
     void on_buttonSave_clicked();
 
-    void receive_message(QByteArray,int);
+    void receive_message(QByteArray response, int who);
+    void receive_process(QProcess* tp, int who);
     void refreshTimer();
     void refreshTimerLabel();
+
 private:
     Ui::MainWindow *ui;
     hexBoard* hex;
@@ -70,13 +73,15 @@ private:
     QLabel pieces[11][11];
     std::string redExe;
     std::string blueExe;
+    QString lastMove = "";
+    //void timeWin();
     void startGame();
-    void timeWin();
-    QString penddingMove();
     void resetTimer();
-
     void refreshProcesses();
-    QString askName(short x);
+    void setName(QByteArray name, short x);
+    void terminateThread(short x);
+    void refreshThreads();
+    QString handleMove(QByteArray response, int who);
 }; 
 
 #endif // MAINWINDOW_H

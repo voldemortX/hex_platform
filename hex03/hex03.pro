@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    hexboard.cpp
+    hexboard.cpp \
+    iothread.cpp
 
 HEADERS += \
         mainwindow.h \
-    hexboard.h
+    hexboard.h \
+    iothread.h
 
 FORMS += \
         mainwindow.ui

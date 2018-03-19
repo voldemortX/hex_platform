@@ -38,10 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    if(p[0])
-        delete p[0];
-    if(p[1])
-        delete p[1];
+    terminateThread(0);
+    terminateThread(1);
     if(timer)
     {
         timer->stop();
@@ -60,6 +58,64 @@ void MainWindow::linkBoard(hexBoard* hexIn)
     hex = hexIn;
 }
 
+void MainWindow::receive_process(QProcess* tp, int who)
+{
+    p[who] = tp;
+}
+
+void MainWindow::receive_message(QByteArray response, int who)
+{
+    // comm
+    if (response[0] == 'n' && response[1] == 'a')
+    {
+        setName(response, who);
+    }
+    else if (response[0] == 'm' && response[1] == 'o')
+    {
+
+        QString lastMove = handleMove(response, who);
+        if (lastMove == "")
+        {
+            hex->setStatus(-1);
+            return;
+        }
+        p[!who]->write("move\n");
+        p[!who]->write((lastMove + "\n").toLatin1());
+        hex->setWho(!who);
+    }
+}
+
+QString MainWindow::handleMove(QByteArray response, int who)
+{
+    short x = response[5] - 'A' + 1;
+    short y = response[6] - 'A' + 1;
+    qDebug() << x << y;
+    if(!hex->makeMove(x, y, who + 1))
+    {
+        p[who]->write("wrong\n");
+        return "";
+    }
+    setPic(x, y, who + 1);
+   // Sleep(3000);
+    ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
+    short currentStatus = hex->checkStatus();
+    if (currentStatus == 1)
+    {
+        ui->labelStatus->setText("Red win");
+        QMessageBox::information(NULL, "", "Red win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+        return "";
+    }
+    else if (currentStatus == 2)
+    {
+        ui->labelStatus->setText("Blue win");
+        QMessageBox::information(NULL, "", "Blue win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+        return "";
+    }
+    QString temp = "";
+    temp = temp + response[5] + response[6];
+    return temp;
+}
+
 void MainWindow::on_buttonStart_clicked()
 {
     // start a NEW game between AIs
@@ -69,98 +125,18 @@ void MainWindow::on_buttonStart_clicked()
         return;
     }
     startGame();
-    QString lastMove = "";
-    iothread[0] = new myThread(p[0],0);
-    iothread[1] = new myThread(p[1],1);
-    connect(iothread[0],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
-    connect(iothread[1],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
-
     // careful with time
-
     p[BLUE-1]->write("start\n");
     p[BLUE-1]->write("blue\n");
-
     qDebug() << "/red start()" << "\n";
     p[RED-1]->write("start\n");
     p[RED-1]->write("red\n");
     hex->setStatus(0);
     hex->setWho(0);
-    iothread[0]->start();
-    iothread[1]->start();
-   /* lastMove = penddingMove();
-    if (lastMove == "")
-        return;
-
     hex->setTurn(1);
-
-    while(1)
-    {
-        short turn = hex->getTurn();
-
-        p[turn]->write("move\n");
-        qDebug() << (lastMove + "\n").toLatin1();
-        p[turn]->write((lastMove + "\n").toLatin1());
-        //p[turn]->write("\n");
-        hex->setWho(hex->getTurn());
-        lastMove = penddingMove();
-        if (lastMove == "")
-        {
-            return;
-        }
-        hex->setTurn(!turn);
-    }
-*/
 }
 
-QString MainWindow::penddingMove()
-{
-    qDebug() << "penddingMove()" << "\n";
-    short turn = hex->getTurn();
-    QByteArray move;
-    move.resize(10);
-    bool flag = p[turn]->waitForReadyRead(maxTime);
-    //bool flag = true;
-    if (flag)
-    {
-         move = p[turn]->readLine(10);
-         short x = move[5] - 'A' + 1;
-         short y = move[6] - 'A' + 1;
-         qDebug() << x << y;
-         if(!hex->makeMove(x, y, turn + 1))
-         {
-             p[turn]->write("wrong\n");
-             return penddingMove();
-         }
-         setPic(x, y, turn + 1);
-        // Sleep(3000);
-         ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
-         short currentStatus = hex->checkStatus();
-         if (currentStatus == 1)
-         {
-             ui->labelStatus->setText("Red win");
-             QMessageBox::information(NULL, "", "Red win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
-             hex->setStatus(-1);
-             return "";
-         }
-         else if (currentStatus == 2)
-         {
-             ui->labelStatus->setText("Blue win");
-             QMessageBox::information(NULL, "", "Blue win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
-             hex->setStatus(-1);
-             return "";
-         }
-         QString temp = "";
-         temp = temp + move[5] + move[6];
-         qDebug() << temp << "\n";
-         return temp;
-    }
-    else
-    {
-        timeWin();
-        return "";
-    }
-}
-
+/*
 void MainWindow::timeWin()
 {
     QString message = "Blue time win!";
@@ -175,6 +151,7 @@ void MainWindow::timeWin()
     hex->setStatus(-1);
 
 }
+*/
 
 void MainWindow::startGame()
 {
@@ -183,7 +160,7 @@ void MainWindow::startGame()
     clearPieces();
     ui->labelStatus->setText("Ongoing");
     ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
-    //refreshProcesses();
+    refreshThreads();
     qDebug() << "/startGame()" << "\n";
 
 }
@@ -234,7 +211,7 @@ void MainWindow::on_buttonLoadRed_clicked()
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
     redExe = filePath.toStdString();
     ui->redFile->setPlainText(filePath);
-    refreshProcesses();
+    refreshThreads();
 }
 
 void MainWindow::on_buttonLoadBlue_clicked()
@@ -242,30 +219,32 @@ void MainWindow::on_buttonLoadBlue_clicked()
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
     blueExe = filePath.toStdString();
     ui->blueFile->setPlainText(filePath);
-    refreshProcesses();
+    refreshThreads();
 }
 
 void MainWindow::on_buttonUnloadRed_clicked()
 {
     ui->redFile->setPlainText("");
     redExe = "";
-    if(p[0])
-    {
-        p[0]->write("exit");
-        p[0]->terminate();
-        delete p[0];
-    }
+    terminateThread(RED);
 }
 void MainWindow::on_buttonUnloadBlue_clicked()
 {
     ui->blueFile->setPlainText("");
     blueExe = "";
-    if(p[1])
-    {
-        p[1]->write("exit");
-        p[1]->terminate();
-        delete p[1];
+    terminateThread(BLUE);
+}
 
+void MainWindow::terminateThread(short x)
+{
+    x -= 1;
+    if (iothread[x])
+    {
+        if (p[x])
+            p[x]->write("exit");
+
+        iothread[x]->terminate();
+        delete iothread[x];
     }
 }
 
@@ -276,55 +255,39 @@ void MainWindow::on_buttonExchange_clicked()
     blueExe = temp.toStdString();
     ui->blueFile->setPlainText(QString::fromStdString(blueExe));
     ui->redFile->setPlainText(QString::fromStdString(redExe));
-
 }
-void MainWindow::refreshProcesses()
+void MainWindow::refreshThreads()
 {
     // logically concluded
     qDebug() << "refreshProcess()";
     for (int i = 0; i <= 1; i++)
     {
-        if (p[i])
+        if (iothread[i])
         {
-            p[i]->write("exit");
-            p[i]->terminate();
-            delete p[i];
+            if (p[i])
+                p[i]->write("exit");
+
+            iothread[i]->terminate();
+            delete iothread[i];
         }
-        p[i] = new QProcess;
+        iothread[i] = new myThread(redExe, i);
+        connect(iothread[i],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
+        connect(iothread[i],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
+        iothread[i]->start();
     }
-    if (redExe != "")
-    {
-        QString name = askName(RED);
-        if (name != "")
-            ui->redFile->setPlainText(name);
-    }
-    if (blueExe != "")
-    {
-        QString name = askName(BLUE);
-        if (name != "")
-            ui->blueFile->setPlainText(name);
-    }
-    qDebug() << "/refreshProcess()";
 }
 
-QString MainWindow::askName(short x)
+void MainWindow::setName(QByteArray name, short x)
 {
-    qDebug() << "askName()";
-    x -= 1;
-    p[x]->start(QString::fromStdString(redExe));
-    p[x]->write("name?\n");
-    bool flag = p[x]->waitForReadyRead();
-    QByteArray name;
-    if (flag)
+    if (x)
     {
-        name = p[x]->readLine();
-        return(QString(name));
+        ui->blueFile->setPlainText(QString(name));
     }
     else
     {
-        return "";
+        ui->redFile->setPlainText(QString(name));
     }
-    qDebug() << "/askName()";
+    qDebug() << "/setName()";
 }
 
 void MainWindow::on_buttonSave_clicked()
@@ -393,11 +356,6 @@ void MainWindow::refreshTimerLabel()
     //qDebug() << "board status: >>>>>" << hex->getStatus();
     // fucking inconsistent
     // QCoreApplication::processEvents();
-}
-void MainWindow::receive_message(QByteArray message, int id)
-{
-    qDebug()<<"aaa:"<<message<<' '<<id;
-    //p[!id]->write("move AB\n\0");
 }
 
 

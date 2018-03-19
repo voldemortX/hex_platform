@@ -1,17 +1,26 @@
 #ifndef IOTHREAD_H
-#endif // IOTHREAD_H
+#define IOTHREAD_H
+
 #include<QThread>
 #include<QProcess>
 #include<QDebug>
+
+
 class myThread: public QThread
 {
    Q_OBJECT
 public:
-    myThread(QProcess*,int);
+    myThread(std::string,int);
     virtual void run();
+    ~myThread();
 private:
     QProcess* proc=NULL;
-    int id = 0;//1 for red 2 for blue
+    int id = 0;//0 for red 1 for blue
+    void new_process();
+
 signals:
     void send_message(QByteArray,int);
+    void set_process(QProcess*,int);
 };
+
+#endif
