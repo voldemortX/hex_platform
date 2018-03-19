@@ -47,7 +47,7 @@ MainWindow::~MainWindow()
     }
     if(timer_thread)
     {
-        timer_thread->quit();
+        timer_thread->terminate();
         delete timer_thread;
     }
 }
