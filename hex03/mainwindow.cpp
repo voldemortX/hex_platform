@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
         y += yDelta;
     }
     // nxp!
-    pieces[10][0].setGeometry(336, 500, pieceWidth, pieceHeight);
+    //pieces[10][0].setGeometry(336, 500, pieceWidth, pieceHeight);
 
 }
 
@@ -76,10 +76,11 @@ void MainWindow::on_buttonStart_clicked()
     while(1)
     {
         short turn = hex->getTurn();
-        p[turn]->write("move ");
-        qDebug() << lastMove.toLatin1().data();
-        p[turn]->write(lastMove.toLatin1().data());
-        p[turn]->write("\n");
+
+        p[turn]->write("move\n");
+        qDebug() << (lastMove + "\n").toLatin1();
+        p[turn]->write((lastMove + "\n").toLatin1());
+        //p[turn]->write("\n");
         lastMove = penddingMove();
         if (lastMove == "")
             return;
@@ -93,11 +94,12 @@ QString MainWindow::penddingMove()
     qDebug() << "penddingMove()" << "\n";
     short turn = hex->getTurn();
     QByteArray move;
-    move.resize(8);
+    move.resize(10);
     bool flag = p[turn]->waitForReadyRead(maxTime);
+    //bool flag = true;
     if (flag)
     {
-         move = p[turn]->readLine(8);
+         move = p[turn]->readLine(10);
          short x = move[5] - 'A' + 1;
          short y = move[6] - 'A' + 1;
          qDebug() << x << y;
