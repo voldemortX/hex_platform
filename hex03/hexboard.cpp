@@ -48,12 +48,12 @@ std::string hexBoard::getMoves()
 short hexBoard::checkStatus()
 {
     // 0: ongoing, 1: red won, 2: blue won
-    short flag[13][13];
+    short flag[13][13] = {0};
     status = 0;
     for(int i = 1;i <= 11 ;i++)
     {
-        if(searchBoard(RED,1,i,flag)) status = 1;
-        if(searchBoard(BLUE,i,1,flag)) status = 2;
+        if(searchBoard(RED,1,i,flag)) {status = 1;return 1;}
+        if(searchBoard(BLUE,i,1,flag)) {status = 2;return 2;}
     }
     return status;
 }

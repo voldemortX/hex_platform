@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
         x = xOffset + (xDelta / 2) * (i + 1);
         y += yDelta;
     }
+    //start a timer
+    resetTimer();
     // nxp!
     //pieces[10][0].setGeometry(336, 500, pieceWidth, pieceHeight);
 
@@ -53,8 +55,7 @@ void MainWindow::on_buttonStart_clicked()
     // start a NEW game between AIs
     startGame();
     QString lastMove = "";
-    //start a timer
-    resetTimer();
+
     qDebug() << QString::fromStdString(redExe) << "555\n";
     if((!p[RED-1] || !p[BLUE-1])||(redExe == "" || blueExe == ""))
     {
@@ -83,8 +84,10 @@ void MainWindow::on_buttonStart_clicked()
         //p[turn]->write("\n");
         lastMove = penddingMove();
         if (lastMove == "")
+        {
+
             return;
-        hex->setTurn(!turn);
+        }hex->setTurn(!turn);
     }
 
 }
@@ -109,18 +112,20 @@ QString MainWindow::penddingMove()
              return penddingMove();
          }
          setPic(x, y, turn + 1);
-         Sleep(1000);
+         //Sleep(1000);
          ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
          short currentStatus = hex->checkStatus();
          if (currentStatus == 1)
          {
              ui->labelStatus->setText("Red win");
              QMessageBox::information(NULL, "", "Red win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+             return "";
          }
          else if (currentStatus == 2)
          {
              ui->labelStatus->setText("Blue win");
              QMessageBox::information(NULL, "", "Blue win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+             return "";
          }
          QString temp = "";
          temp = temp + move[5] + move[6];
@@ -230,15 +235,21 @@ void MainWindow::on_buttonUnloadRed_clicked()
     ui->redFile->setPlainText("");
     redExe = "";
     if(p[0])
+    {
+        p[0]->terminate();
         delete p[0];
+    }
 }
-
 void MainWindow::on_buttonUnloadBlue_clicked()
 {
     ui->blueFile->setPlainText("");
     blueExe = "";
     if(p[1])
+    {
+        p[1]->terminate();
         delete p[1];
+
+    }
 }
 
 void MainWindow::on_buttonExchange_clicked()
@@ -263,19 +274,33 @@ void MainWindow::on_buttonSave_clicked()
 void MainWindow::resetTimer()
 {
 
-    if(timer != -1)
-        this->killTimer(timer);
-    time[0] = time[1] = 0;
-    timer = this->startTimer(1000);
+    //if(timer != -1)
+   //     this->killTimer(timer);
+    timer_thread = new QThread(this);
+    timer = new QTimer();
+    timer ->moveToThread(timer_thread);
+    timer->setInterval(1000);
+    connect(timer_thread,SIGNAL(started()),timer,SLOT(start()));
+    connect(timer,&QTimer::timeout,this,&MainWindow::refreshTimer,Qt::DirectConnection);
+    time[0] = 0;
+    time[1] = 0;
+    timer_thread->start();
+//    timer = this->startTimer(1000);
 
 }
 
-void MainWindow::timerEvent(QTimerEvent *event)
+void MainWindow::refreshTimer()
 {
-    if(!hex->checkStatus())
+
+   // if(!hex->checkStatus())
+    if(1)
     {
-        time[hex->getTurn()-1]++;
+        time[hex->getTurn()]++;
         refreshTimerLabel();
+    }
+    else
+    {
+        time[0] = time[1] = 0;
     }
 }
 void MainWindow::refreshTimerLabel()
