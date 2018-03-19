@@ -42,6 +42,16 @@ MainWindow::~MainWindow()
         delete p[0];
     if(p[1])
         delete p[1];
+    if(timer)
+    {
+        timer->stop();
+        delete timer;
+    }
+    if(timer_thread)
+    {
+        timer_thread->quit();
+        delete timer_thread;
+    }
 }
 
 void MainWindow::linkBoard(hexBoard* hexIn)
@@ -53,25 +63,28 @@ void MainWindow::linkBoard(hexBoard* hexIn)
 void MainWindow::on_buttonStart_clicked()
 {
     // start a NEW game between AIs
-    startGame();
-    QString lastMove = "";
-
     qDebug() << QString::fromStdString(redExe) << "555\n";
     if((!p[RED-1] || !p[BLUE-1])||(redExe == "" || blueExe == ""))
     {
         return;
     }
+    startGame();
+    QString lastMove = "";
 
-    p[RED-1]->start(QString::fromStdString(redExe));
+    // careful with time
+
+    p[BLUE-1]->write("start\n");
+    p[BLUE-1]->write("blue\n");
+
     qDebug() << "/red start()" << "\n";
     p[RED-1]->write("start\n");
     p[RED-1]->write("red\n");
+    hex->setStatus(0);
+    hex->setWho(0);
     lastMove = penddingMove();
     if (lastMove == "")
         return;
-    p[BLUE-1]->start(QString::fromStdString(blueExe));
-    p[BLUE-1]->write("start\n");
-    p[BLUE-1]->write("blue\n");
+
     hex->setTurn(1);
 
     while(1)
@@ -82,12 +95,13 @@ void MainWindow::on_buttonStart_clicked()
         qDebug() << (lastMove + "\n").toLatin1();
         p[turn]->write((lastMove + "\n").toLatin1());
         //p[turn]->write("\n");
+        hex->setWho(hex->getTurn());
         lastMove = penddingMove();
         if (lastMove == "")
         {
-
             return;
-        }hex->setTurn(!turn);
+        }
+        hex->setTurn(!turn);
     }
 
 }
@@ -112,19 +126,21 @@ QString MainWindow::penddingMove()
              return penddingMove();
          }
          setPic(x, y, turn + 1);
-         //Sleep(1000);
+         Sleep(3000);
          ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
          short currentStatus = hex->checkStatus();
          if (currentStatus == 1)
          {
              ui->labelStatus->setText("Red win");
              QMessageBox::information(NULL, "", "Red win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+             hex->setStatus(-1);
              return "";
          }
          else if (currentStatus == 2)
          {
              ui->labelStatus->setText("Blue win");
              QMessageBox::information(NULL, "", "Blue win", QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+             hex->setStatus(-1);
              return "";
          }
          QString temp = "";
@@ -148,19 +164,22 @@ void MainWindow::timeWin()
         ui->labelStatus->setText("Red win");
         message = "Red time win!";
     }
-
+    hex->setStatus(!hex->getTurn() + 1);
     QMessageBox::information(NULL, "", message, QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);
+    hex->setStatus(-1);
 
 }
 
 void MainWindow::startGame()
 {
     qDebug() << "startGame()" << "\n";
-    ui->labelStatus->setText("Ongoing");
     hex->clearBoard();
     clearPieces();
+    ui->labelStatus->setText("Ongoing");
     ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
+    refreshProcesses();
     qDebug() << "/startGame()" << "\n";
+
 }
 bool MainWindow::setPic(short x, short y, short player)
 {
@@ -209,12 +228,7 @@ void MainWindow::on_buttonLoadRed_clicked()
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
     redExe = filePath.toStdString();
     ui->redFile->setPlainText(filePath);
-    if (p[RED-1])
-    {
-        p[RED-1]->write("exit");
-        delete p[RED-1];
-    }
-    p[RED-1] = new QProcess;
+    refreshProcesses();
 }
 
 void MainWindow::on_buttonLoadBlue_clicked()
@@ -222,12 +236,7 @@ void MainWindow::on_buttonLoadBlue_clicked()
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
     blueExe = filePath.toStdString();
     ui->blueFile->setPlainText(filePath);
-    if (p[BLUE-1])
-    {
-        p[BLUE-1]->write("exit");
-        delete p[BLUE-1];
-    }
-    p[BLUE-1] = new QProcess;
+    refreshProcesses();
 }
 
 void MainWindow::on_buttonUnloadRed_clicked()
@@ -236,6 +245,7 @@ void MainWindow::on_buttonUnloadRed_clicked()
     redExe = "";
     if(p[0])
     {
+        p[0]->write("exit");
         p[0]->terminate();
         delete p[0];
     }
@@ -246,6 +256,7 @@ void MainWindow::on_buttonUnloadBlue_clicked()
     blueExe = "";
     if(p[1])
     {
+        p[1]->write("exit");
         p[1]->terminate();
         delete p[1];
 
@@ -259,6 +270,55 @@ void MainWindow::on_buttonExchange_clicked()
     blueExe = temp.toStdString();
     ui->blueFile->setPlainText(QString::fromStdString(blueExe));
     ui->redFile->setPlainText(QString::fromStdString(redExe));
+
+}
+void MainWindow::refreshProcesses()
+{
+    // logically concluded
+    qDebug() << "refreshProcess()";
+    for (int i = 0; i <= 1; i++)
+    {
+        if (p[i])
+        {
+            p[i]->write("exit");
+            p[i]->terminate();
+            delete p[i];
+        }
+        p[i] = new QProcess;
+    }
+    if (redExe != "")
+    {
+        QString name = askName(RED);
+        if (name != "")
+            ui->redFile->setPlainText(name);
+    }
+    if (blueExe != "")
+    {
+        QString name = askName(BLUE);
+        if (name != "")
+            ui->blueFile->setPlainText(name);
+    }
+    qDebug() << "/refreshProcess()";
+}
+
+QString MainWindow::askName(short x)
+{
+    qDebug() << "askName()";
+    x -= 1;
+    p[x]->start(QString::fromStdString(redExe));
+    p[x]->write("name?\n");
+    bool flag = p[x]->waitForReadyRead();
+    QByteArray name;
+    if (flag)
+    {
+        name = p[x]->readLine();
+        return(QString(name));
+    }
+    else
+    {
+        return "";
+    }
+    qDebug() << "/askName()";
 }
 
 void MainWindow::on_buttonSave_clicked()
@@ -291,16 +351,25 @@ void MainWindow::resetTimer()
 
 void MainWindow::refreshTimer()
 {
-
-   // if(!hex->checkStatus())
-    if(1)
+    qDebug() << "board status: >>>>>" << hex->getStatus();
+    if(hex->getStatus() == 0)
     {
-        time[hex->getTurn()]++;
+        time[hex->getWho()]++;
+        /*
+        if (time > threshold)
+        {
+            timeWin();
+        }
+        */
         refreshTimerLabel();
+    }
+    else if (hex->getStatus() == -1)
+    {
+        time[0] = time[1] = 0;
     }
     else
     {
-        time[0] = time[1] = 0;
+        // just freeze time
     }
 }
 void MainWindow::refreshTimerLabel()
@@ -314,6 +383,8 @@ void MainWindow::refreshTimerLabel()
     second = time[1] % 60;
     time_string = QString("%1:%2").arg(minute,2,10,QChar('0')).arg(second,2,10,QChar('0'));
     ui->timerBlue->setText(time_string);
+    // fucking inconsistent
+    // QCoreApplication::processEvents();
 }
 
 

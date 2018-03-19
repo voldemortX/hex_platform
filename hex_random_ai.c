@@ -27,45 +27,42 @@ void make_move(char* response)
 	response[0] = x+'A';
 	response[1] = y+'A';
 	response[2] = '\0';
-	response[0] = 'A';
-	response[1] = 'B';
-	response[2] = '\0'; 
 }
 int main()
 {
 	while(1)
 	{
 		//Get command
-		scanf("%s%*c",cmd);
+		scanf("%s",cmd);
 		
 
 		//return name
 		if(!strcmp(cmd,"name?"))
 		{
-			//fflush(stdin);
+			fflush(stdin);
 			printf("name Test\n");
-			//fflush(stdout);
+			fflush(stdout);
 			continue;
 		}
 
 		//exit
 		if(!strcmp(cmd,"exit"))
 		{
-			//fflush(stdin);
+			fflush(stdin);
 			exit(0);
 		}
 
 		//wrong command
 		if(!strcmp(cmd,"wrong"))
 		{
-			//fflush(stdin);
+			fflush(stdin);
 			continue;
 		}
 
 		//start 
 		if(!strcmp(cmd,"start"))
 		{
-			scanf("%s%*c",cmd);
+			scanf("%s",cmd);
 			//fflush(stdin);
 			//Red
 			if(!strcmp(cmd,"red"))
@@ -73,7 +70,7 @@ int main()
 				color = RED;
 				make_move(response);
 				printf("move %s\n",response );
-				//fflush(stdout);
+				fflush(stdout);
 			}
 			else//Blue
 			{
@@ -87,12 +84,12 @@ int main()
 		if(!strcmp(cmd,"move"))
 		{
 			
-			scanf("%s%*c",cmd);
-			//fflush(stdin);
+			scanf("%s",cmd);
+			fflush(stdin);
 			get_move(cmd);
 			make_move(response);
 			printf("move %s\n",response);
-			//fflush(stdout);
+			fflush(stdout);
 			continue;
 		}
 		

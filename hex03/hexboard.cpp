@@ -5,10 +5,12 @@ hexBoard::hexBoard()
 {
     this->clearBoard();
 }
+
 hexBoard::~hexBoard()
 {
 
 }
+
 bool hexBoard::makeMove(short x, short y, short player)
 {
     // a player makes a move, players: 1-red, 2-blue
@@ -22,6 +24,7 @@ bool hexBoard::makeMove(short x, short y, short player)
     moves += tempString;
     return true;
 }
+
 bool hexBoard::clearBoard()
 {
     for (int i = 0; i <= 12; ++i)
@@ -30,21 +33,52 @@ bool hexBoard::clearBoard()
 
     turn = 0;
     moves = "";
-    status = 0;
+    status = -1;
+    who = 0;
     return true;
 }
+
 void hexBoard::setTurn(short turnIn)
 {
     turn = turnIn;
 }
+
 short hexBoard::getTurn()
 {
     return turn;
 }
+
 std::string hexBoard::getMoves()
 {
     return moves;
 }
+
+short hexBoard::getWho()
+{
+    return who;
+}
+
+bool hexBoard::setWho(short whoIn)
+{
+    if (whoIn != 0 && whoIn != 1)
+        return false;
+    who = whoIn;
+    return true;
+}
+
+bool hexBoard::setStatus(short statusIn)
+{
+    if (statusIn != 0 && statusIn != -1 && statusIn != 2 && statusIn != 3)
+        return false;
+    status = statusIn;
+    return true;
+}
+
+short hexBoard::getStatus()
+{
+    return status;
+}
+
 short hexBoard::checkStatus()
 {
     // 0: ongoing, 1: red won, 2: blue won

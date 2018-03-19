@@ -58,7 +58,7 @@ private:
     const short yDelta = 38;
     const short pieceWidth = 47;
     const short pieceHeight = 53;
-    const int maxTime = 30000;  // step time
+    const int maxTime = -1;  // step time
     //int timer = -1;
     QThread *timer_thread = NULL;
     QTimer *timer = NULL;
@@ -71,6 +71,8 @@ private:
     QString penddingMove();
     void resetTimer();
     void refreshTimerLabel();
+    void refreshProcesses();
+    QString askName(short x);
 }; 
 
 #endif // MAINWINDOW_H
