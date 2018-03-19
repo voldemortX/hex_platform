@@ -15,6 +15,7 @@
 #include "hexboard.h"
 #include <QTimer>
 #include <QThread>
+#include <iothread.h>
 namespace Ui {
 class MainWindow;
 }
@@ -46,10 +47,13 @@ private slots:
 
     void on_buttonSave_clicked();
 
+    void receive_message(QByteArray,int);
     void refreshTimer();
+    void refreshTimerLabel();
 private:
     Ui::MainWindow *ui;
     hexBoard* hex;
+    myThread* iothread[2];
     const short RED=1;
     const short BLUE=2;
     const short xOffset = 116 - 20;
@@ -70,7 +74,7 @@ private:
     void timeWin();
     QString penddingMove();
     void resetTimer();
-    void refreshTimerLabel();
+
     void refreshProcesses();
     QString askName(short x);
 }; 

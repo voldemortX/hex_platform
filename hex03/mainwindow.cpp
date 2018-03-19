@@ -70,6 +70,10 @@ void MainWindow::on_buttonStart_clicked()
     }
     startGame();
     QString lastMove = "";
+    iothread[0] = new myThread(p[0],0);
+    iothread[1] = new myThread(p[1],1);
+    connect(iothread[0],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
+    connect(iothread[1],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
 
     // careful with time
 
@@ -81,7 +85,9 @@ void MainWindow::on_buttonStart_clicked()
     p[RED-1]->write("red\n");
     hex->setStatus(0);
     hex->setWho(0);
-    lastMove = penddingMove();
+    iothread[0]->start();
+    iothread[1]->start();
+   /* lastMove = penddingMove();
     if (lastMove == "")
         return;
 
@@ -103,7 +109,7 @@ void MainWindow::on_buttonStart_clicked()
         }
         hex->setTurn(!turn);
     }
-
+*/
 }
 
 QString MainWindow::penddingMove()
@@ -126,7 +132,7 @@ QString MainWindow::penddingMove()
              return penddingMove();
          }
          setPic(x, y, turn + 1);
-         Sleep(3000);
+        // Sleep(3000);
          ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
          short currentStatus = hex->checkStatus();
          if (currentStatus == 1)
@@ -177,7 +183,7 @@ void MainWindow::startGame()
     clearPieces();
     ui->labelStatus->setText("Ongoing");
     ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
-    refreshProcesses();
+    //refreshProcesses();
     qDebug() << "/startGame()" << "\n";
 
 }
@@ -329,7 +335,6 @@ void MainWindow::on_buttonSave_clicked()
     QTextStream in(&file);
     in<<QString::fromStdString(hex->getMoves());
     file.close();
-
 }
 void MainWindow::resetTimer()
 {
@@ -339,8 +344,9 @@ void MainWindow::resetTimer()
     timer_thread = new QThread(this);
     timer = new QTimer();
     timer ->moveToThread(timer_thread);
-    timer->setInterval(1000);
+    timer->setInterval(100);
     connect(timer_thread,SIGNAL(started()),timer,SLOT(start()));
+    //connect(timer,&QTimer::timeout,this,SLOT(refreshTimer()),Qt::DirectConnection);
     connect(timer,&QTimer::timeout,this,&MainWindow::refreshTimer,Qt::DirectConnection);
     time[0] = 0;
     time[1] = 0;
@@ -351,9 +357,10 @@ void MainWindow::resetTimer()
 
 void MainWindow::refreshTimer()
 {
-    qDebug() << "board status: >>>>>" << hex->getStatus();
+
     if(hex->getStatus() == 0)
     {
+        //unit of time is 0.1s
         time[hex->getWho()]++;
         /*
         if (time > threshold)
@@ -374,17 +381,23 @@ void MainWindow::refreshTimer()
 }
 void MainWindow::refreshTimerLabel()
 {
-    int minute = time[0] / 60;
-    int second = time[0] % 60;
+    int minute = time[0]/10 / 60;
+    int second = time[0]/10 % 60;
     QString time_string;
     time_string = QString("%1:%2").arg(minute,2,10,QChar('0')).arg(second,2,10,QChar('0'));
     ui->timerRed->setText(time_string);
-    minute = time[1] / 60;
-    second = time[1] % 60;
+    minute = time[1] /10 / 60;
+    second = time[1] /10 % 60;
     time_string = QString("%1:%2").arg(minute,2,10,QChar('0')).arg(second,2,10,QChar('0'));
     ui->timerBlue->setText(time_string);
+    //qDebug() << "board status: >>>>>" << hex->getStatus();
     // fucking inconsistent
     // QCoreApplication::processEvents();
+}
+void MainWindow::receive_message(QByteArray message, int id)
+{
+    qDebug()<<"aaa:"<<message<<' '<<id;
+    //p[!id]->write("move AB\n\0");
 }
 
 
