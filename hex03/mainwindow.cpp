@@ -109,6 +109,7 @@ QString MainWindow::penddingMove()
              return penddingMove();
          }
          setPic(x, y, turn + 1);
+         Sleep(1000);
          ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
          short currentStatus = hex->checkStatus();
          if (currentStatus == 1)
