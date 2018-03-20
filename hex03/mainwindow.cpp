@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     //start a timer
     resetTimer();
+    iothread[0] = 0;
+    iothread[1] = 0;
     // nxp!
     //pieces[10][0].setGeometry(336, 500, pieceWidth, pieceHeight);
 
@@ -238,14 +240,14 @@ void MainWindow::on_buttonUnloadRed_clicked()
 {
     ui->redName->setText("Xian Studio");
     redExe = "";
-    //terminateThread(RED);
+    terminateThread(RED);
 }
 
 void MainWindow::on_buttonUnloadBlue_clicked()
 {
     ui->blueName->setText("Xian Studio");
     blueExe = "";
-    //terminateThread(BLUE);
+    terminateThread(BLUE);
 }
 
 void MainWindow::terminateThread(short x)
@@ -253,15 +255,18 @@ void MainWindow::terminateThread(short x)
     x -= 1;
     if (iothread[x])
     {
+        iothread[x]->terminate();
+        //iothread[x]->wait();
+        delete iothread[x];
+        iothread[x] = 0;
         if (p[x])
         {
-            p[x]->write("exit");
-            delete p[x];
+         /*   p[x]->write("exit\n");
+            p[x]->terminate();
+            delete p[x];*/
+            p[x] = 0;
         }
-        iothread[x]->terminate();
-        iothread[x]->wait();
 
-        delete iothread[x];
     }
 }
 
@@ -281,7 +286,7 @@ void MainWindow::refreshThreads()
     std::string exe[2] = {redExe, blueExe};
     for (int i = 0; i <= 1; i++)
     {
-        //terminateThread(i + 1);
+        terminateThread(i + 1);
         qDebug()<<QString::fromStdString(exe[i])<<"a";
         iothread[i] = new myThread(exe[i], i);
         connect(iothread[i],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));

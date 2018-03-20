@@ -23,7 +23,7 @@ void myThread::run()
         do
         {
             Sleep(12);
-            message = proc->readLine(20);
+            message = proc->readLine(30);
           //  qDebug()<<"read " <<id;
         }while(!test_message(message));
         if(flag)
@@ -46,6 +46,7 @@ void myThread::run()
 
 myThread::~myThread()
 {
+    qDebug()<<"thread terminate";
     proc->terminate();
     delete proc;
 }
