@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     redExe = "";
     blueExe = "";
+    exchangeflag = false;
     // setup pieces
     int x = xOffset, y = yOffset;
     for (int i = 0; i <= 10; ++i)
@@ -69,6 +70,9 @@ void MainWindow::receive_process(QProcess* tp, int who)
 void MainWindow::receive_message(QByteArray response, int who)
 {
     // comm
+    if(exchangeflag)
+        who = !who;
+
     if (response[0] == 'n' && response[1] == 'a')
     {
         setName(response, who);
@@ -277,22 +281,15 @@ void MainWindow::on_buttonExchange_clicked()
     blueExe = temp.toStdString();
     ui->blueName->setText(QString::fromStdString(blueExe));
     ui->redName->setText(QString::fromStdString(redExe));
-}
-
-void MainWindow::refreshThreads()
-{
-    // logically concluded
-    qDebug() << "refreshProcess()";
-    std::string exe[2] = {redExe, blueExe};
-    for (int i = 0; i <= 1; i++)
-    {
-        terminateThread(i + 1);
-        qDebug()<<QString::fromStdString(exe[i])<<"a";
-        iothread[i] = new myThread(exe[i], i);
-        connect(iothread[i],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
-        connect(iothread[i],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
-        iothread[i]->start();
-    }
+    QProcess* tp = p[0];
+    p[0] = p[1];
+    p[1] = tp;
+    p[0]->write("name?\n");
+    p[1]->write("name?\n");
+    myThread* tt = iothread[0];
+    iothread[0] = iothread[1];
+    iothread[1] = tt;
+    exchangeflag = !exchangeflag;
 }
 
 void MainWindow::setName(QByteArray name, short x)

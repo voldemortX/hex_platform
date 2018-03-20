@@ -74,6 +74,8 @@ private:
     std::string redExe;
     std::string blueExe;
     QString lastMove = "";
+    bool exchangeflag;
+
     //void timeWin();
     void startGame();
     void resetTimer();
