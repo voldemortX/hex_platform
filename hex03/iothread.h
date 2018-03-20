@@ -4,6 +4,7 @@
 #include<QThread>
 #include<QProcess>
 #include<QDebug>
+#include <synchapi.h>
 
 
 class myThread: public QThread

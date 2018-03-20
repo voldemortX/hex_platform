@@ -38,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    terminateThread(0);
-    terminateThread(1);
+    terminateThread(RED);
+    terminateThread(BLUE);
     if(timer)
     {
         timer->stop();
@@ -61,6 +61,7 @@ void MainWindow::linkBoard(hexBoard* hexIn)
 void MainWindow::receive_process(QProcess* tp, int who)
 {
     p[who] = tp;
+    p[who]->write("name?\n");
 }
 
 void MainWindow::receive_message(QByteArray response, int who)
@@ -133,16 +134,7 @@ void MainWindow::on_buttonStart_clicked()
     hex->setStatus(0);
     hex->setWho(0);
     hex->setTurn(1);
-   /* while(1)
-    {
-        bool flag = p[0]->waitForReadyRead();
-        if(flag)
-        {
-            QByteArray message;
-            message = p[0]->readLine();
-            qDebug()<<"get "<<message;
-        }
-    }*/
+
 }
 
 /*
@@ -169,7 +161,7 @@ void MainWindow::startGame()
     clearPieces();
     ui->labelStatus->setText("Ongoing");
     ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
-   // refreshThreads();
+    //refreshThreads();
     qDebug() << "/startGame()" << "\n";
 
 }
@@ -219,9 +211,10 @@ void MainWindow::on_buttonLoadRed_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
     redExe = filePath.toStdString();
-    ui->redFile->setPlainText(filePath);
+    ui->redName->setText(filePath);
     //refreshThreads();
     //if(iothread[0])
+    //terminateThread(RED);
     iothread[0] = new myThread(redExe, 0);
     connect(iothread[0],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
     connect(iothread[0],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
@@ -232,9 +225,10 @@ void MainWindow::on_buttonLoadBlue_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
     blueExe = filePath.toStdString();
-    ui->blueFile->setPlainText(filePath);
+    ui->blueName->setText(filePath);
     //refreshThreads();
-    iothread[1] = new myThread(blueExe,1);
+    //terminateThread(BLUE);
+    iothread[1] = new myThread(blueExe, 1);
     connect(iothread[1],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
     connect(iothread[1],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
     iothread[1]->start();
@@ -242,15 +236,16 @@ void MainWindow::on_buttonLoadBlue_clicked()
 
 void MainWindow::on_buttonUnloadRed_clicked()
 {
-    ui->redFile->setPlainText("");
+    ui->redName->setText("Xian Studio");
     redExe = "";
-    terminateThread(RED);
+    //terminateThread(RED);
 }
+
 void MainWindow::on_buttonUnloadBlue_clicked()
 {
-    ui->blueFile->setPlainText("");
+    ui->blueName->setText("Xian Studio");
     blueExe = "";
-    terminateThread(BLUE);
+    //terminateThread(BLUE);
 }
 
 void MainWindow::terminateThread(short x)
@@ -259,9 +254,13 @@ void MainWindow::terminateThread(short x)
     if (iothread[x])
     {
         if (p[x])
+        {
             p[x]->write("exit");
-
+            delete p[x];
+        }
         iothread[x]->terminate();
+        iothread[x]->wait();
+
         delete iothread[x];
     }
 }
@@ -271,25 +270,20 @@ void MainWindow::on_buttonExchange_clicked()
     QString temp = QString::fromStdString(redExe);
     redExe = blueExe;
     blueExe = temp.toStdString();
-    ui->blueFile->setPlainText(QString::fromStdString(blueExe));
-    ui->redFile->setPlainText(QString::fromStdString(redExe));
+    ui->blueName->setText(QString::fromStdString(blueExe));
+    ui->redName->setText(QString::fromStdString(redExe));
 }
+
 void MainWindow::refreshThreads()
 {
     // logically concluded
     qDebug() << "refreshProcess()";
+    std::string exe[2] = {redExe, blueExe};
     for (int i = 0; i <= 1; i++)
     {
-       /* if (iothread[i])
-        {
-            if (p[i])
-                p[i]->write("exit");
-
-            iothread[i]->terminate();
-            delete iothread[i];
-        }*/
-        qDebug()<<QString::fromStdString(redExe)<<"a";
-        iothread[i] = new myThread(redExe, i);
+        //terminateThread(i + 1);
+        qDebug()<<QString::fromStdString(exe[i])<<"a";
+        iothread[i] = new myThread(exe[i], i);
         connect(iothread[i],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
         connect(iothread[i],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
         iothread[i]->start();
@@ -300,11 +294,13 @@ void MainWindow::setName(QByteArray name, short x)
 {
     if (x)
     {
-        ui->blueFile->setPlainText(QString(name));
+        ui->blueName->setText(QString(name).mid(5));
+        ui->blueName->setAlignment(Qt::AlignHCenter);
     }
     else
     {
-        ui->redFile->setPlainText(QString(name));
+        ui->redName->setText(QString(name).mid(5));
+        ui->redName->setAlignment(Qt::AlignHCenter);
     }
     qDebug() << "/setName()";
 }

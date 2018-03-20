@@ -22,6 +22,7 @@ void myThread::run()
         bool flag = 1;
         do
         {
+            Sleep(12);
             message = proc->readLine(20);
           //  qDebug()<<"read " <<id;
         }while(!test_message(message));
