@@ -9,56 +9,50 @@ myThread::myThread(std::string p,int id)
    proc->start(path);
    proc->waitForStarted();
    this->id = id;
-   emit set_process(proc,id);
+   //emit set_process(proc,id);
+   qDebug()<<"set "<<id<<" "<<proc;
 }
 
 void myThread::run()
 {
+    emit set_process(proc,id);
+    QByteArray message;
     while(1)
     {
-        bool flag = proc->waitForReadyRead();
+        bool flag = 1;
+        do
+        {
+            message = proc->readLine(20);
+          //  qDebug()<<"read " <<id;
+        }while(!test_message(message));
         if(flag)
         {
-            QByteArray message;
-            message = proc->readLine();
+           // QByteArray message;
+            //message = proc->readLine();
+            qDebug()<<"get "<<message <<" "<<id;
+
             if(message[0] == 'm' && message [1] == 'o'&& message [2] == 'v'&& message [3] == 'e')
                 emit send_message(message,id);
             if(message[0] == 'n' && message [1] == 'a'&& message [2] == 'm'&& message [3] == 'e')
                 emit send_message(message,id);
         }
-    }
-        /* while(1)
-    {
-       // emit send_message("abcd",id);
-       //proc->write("start blue\n");
-       // proc->write("move BB\n\0");
-       bool flag = proc->waitForReadyRead(1000);
-
-        //qDebug()<<id<<id<<'\n';
-       // sleep(3);
-//        emit send_message("abc2",1);
-        if(flag)
-        {
-            QByteArray move;
-           // move.resize(10);
-            move = proc->readLine();
-           // qDebug()<<"mm"<<move;
-            emit send_message(move,id);
-        }
         else
         {
-            QByteArray move;
-           // move.resize(10);
-            move = proc->readLine();
-            qDebug()<<"false";
-            emit send_message(move,id);
+            qDebug()<<"no "<<id;
         }
-        break;
-    }*/
+    }
 }
 
 myThread::~myThread()
 {
     proc->terminate();
     delete proc;
+}
+bool myThread::test_message(QByteArray message)
+{
+    if(message[0] == 'm' && message [1] == 'o'&& message [2] == 'v'&& message [3] == 'e')
+        return true;
+    if(message[0] == 'n' && message [1] == 'a'&& message [2] == 'm'&& message [3] == 'e')
+        return true;
+    return false;
 }

@@ -119,7 +119,8 @@ QString MainWindow::handleMove(QByteArray response, int who)
 void MainWindow::on_buttonStart_clicked()
 {
     // start a NEW game between AIs
-    qDebug() << QString::fromStdString(redExe) << "555\n";
+    qDebug() << "Start";
+
     if((!p[RED-1] || !p[BLUE-1])||(redExe == "" || blueExe == ""))
     {
         return;
@@ -134,6 +135,16 @@ void MainWindow::on_buttonStart_clicked()
     hex->setStatus(0);
     hex->setWho(0);
     hex->setTurn(1);
+   /* while(1)
+    {
+        bool flag = p[0]->waitForReadyRead();
+        if(flag)
+        {
+            QByteArray message;
+            message = p[0]->readLine();
+            qDebug()<<"get "<<message;
+        }
+    }*/
 }
 
 /*
@@ -160,7 +171,7 @@ void MainWindow::startGame()
     clearPieces();
     ui->labelStatus->setText("Ongoing");
     ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
-    refreshThreads();
+   // refreshThreads();
     qDebug() << "/startGame()" << "\n";
 
 }
@@ -211,7 +222,12 @@ void MainWindow::on_buttonLoadRed_clicked()
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
     redExe = filePath.toStdString();
     ui->redFile->setPlainText(filePath);
-    refreshThreads();
+    //refreshThreads();
+    //if(iothread[0])
+    iothread[0] = new myThread(redExe, 0);
+    connect(iothread[0],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
+    connect(iothread[0],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
+    iothread[0]->start();
 }
 
 void MainWindow::on_buttonLoadBlue_clicked()
@@ -219,7 +235,11 @@ void MainWindow::on_buttonLoadBlue_clicked()
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
     blueExe = filePath.toStdString();
     ui->blueFile->setPlainText(filePath);
-    refreshThreads();
+    //refreshThreads();
+    iothread[1] = new myThread(blueExe,1);
+    connect(iothread[1],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
+    connect(iothread[1],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
+    iothread[1]->start();
 }
 
 void MainWindow::on_buttonUnloadRed_clicked()
@@ -262,14 +282,15 @@ void MainWindow::refreshThreads()
     qDebug() << "refreshProcess()";
     for (int i = 0; i <= 1; i++)
     {
-        if (iothread[i])
+       /* if (iothread[i])
         {
             if (p[i])
                 p[i]->write("exit");
 
             iothread[i]->terminate();
             delete iothread[i];
-        }
+        }*/
+        qDebug()<<QString::fromStdString(redExe)<<"a";
         iothread[i] = new myThread(redExe, i);
         connect(iothread[i],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
         connect(iothread[i],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
