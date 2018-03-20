@@ -79,8 +79,8 @@ void MainWindow::receive_message(QByteArray response, int who)
             hex->setStatus(-1);
             return;
         }
-        p[!who]->write("move\n");
-        p[!who]->write((lastMove + "\n").toLatin1());
+        QString tempQ = "move " + lastMove + "\n";
+        p[!who]->write(tempQ.toLatin1());
         hex->setWho(!who);
     }
 }
@@ -127,11 +127,9 @@ void MainWindow::on_buttonStart_clicked()
     }
     startGame();
     // careful with time
-    p[BLUE-1]->write("start\n");
-    p[BLUE-1]->write("blue\n");
+    p[BLUE-1]->write("start blue\n");
     qDebug() << "/red start()" << "\n";
-    p[RED-1]->write("start\n");
-    p[RED-1]->write("red\n");
+    p[RED-1]->write("start red\n");
     hex->setStatus(0);
     hex->setWho(0);
     hex->setTurn(1);
