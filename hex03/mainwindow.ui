@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Hex_Platform v1.0 @ Xian Studio</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="Line" name="line">
@@ -869,7 +869,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Xian Studio</string>
+     <string>Player 1</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_8">
@@ -927,7 +927,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Xian Studio</string>
+     <string>Player 2</string>
     </property>
    </widget>
   </widget>
