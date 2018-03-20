@@ -107,7 +107,7 @@ QString MainWindow::handleMove(QByteArray response, int who)
     }
     setPic(x, y, who + 1);
    // Sleep(3000);
-    ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
+    ui->historyDisplay->setPlainText(hex->getMoves());
     short currentStatus = hex->checkStatus();
     if (currentStatus == 1)
     {
@@ -169,7 +169,7 @@ void MainWindow::startGame()
     hex->clearBoard();
     clearPieces();
     ui->labelStatus->setText("Ongoing");
-    ui->historyDisplay->setPlainText(QString::fromStdString(hex->getMoves()));
+    ui->historyDisplay->setPlainText(hex->getMoves());
     //refreshThreads();
     qDebug() << "/startGame()" << "\n";
 
@@ -220,7 +220,7 @@ void MainWindow::on_buttonLoadRed_clicked()
 {
     if(iothread[0]) return;
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
-    redExe = filePath.toStdString();
+    redExe = filePath;
     ui->redName->setText(filePath);
     //refreshThreads();
     //if(iothread[0])
@@ -236,7 +236,7 @@ void MainWindow::on_buttonLoadBlue_clicked()
 {
     if(iothread[1]) return;
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
-    blueExe = filePath.toStdString();
+    blueExe = filePath;
     ui->blueName->setText(filePath);
     //refreshThreads();
     //terminateThread(BLUE);
@@ -283,9 +283,9 @@ void MainWindow::terminateThread(short x)
 
 void MainWindow::on_buttonExchange_clicked()
 {
-    QString temp = QString::fromStdString(redExe);
+    QString temp = redExe;
     redExe = blueExe;
-    blueExe = temp.toStdString();
+    blueExe = temp;
     //qDebug()<<"<"<<redExe<<">";
     temp = ui->blueName->text();
     ui->blueName->setText(ui->redName->text());
@@ -325,7 +325,7 @@ void MainWindow::on_buttonSave_clicked()
     QFile file(filename);
     file.open(QIODevice::ReadWrite|QIODevice::Text);
     QTextStream in(&file);
-    in<<QString::fromStdString(hex->getMoves());
+    in<<hex->getMoves();
     file.close();
 }
 void MainWindow::resetTimer()

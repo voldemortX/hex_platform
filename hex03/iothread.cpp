@@ -1,9 +1,8 @@
 #include "iothread.h"
 
-myThread::myThread(std::string p,int id)
+myThread::myThread(QString path, int id)
 {
    // if(p=NULL)
-   QString path = QString::fromStdString(p);
    qDebug() << "Path:" << path;
    proc = new QProcess;
    proc->start(path);

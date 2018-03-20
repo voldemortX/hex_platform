@@ -71,8 +71,8 @@ private:
     QTimer *timer = NULL;
     int time[2] = {0};
     QLabel pieces[11][11];
-    std::string redExe;
-    std::string blueExe;
+    QString redExe;
+    QString blueExe;
     QString lastMove = "";
     bool exchangeflag;
 

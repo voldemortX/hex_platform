@@ -11,7 +11,7 @@ class myThread: public QThread
 {
    Q_OBJECT
 public:
-    myThread(std::string,int);
+    myThread(QString path, int);
     virtual void run();
     ~myThread();
 private:

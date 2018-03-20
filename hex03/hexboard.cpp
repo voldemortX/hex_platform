@@ -19,9 +19,9 @@ bool hexBoard::makeMove(short x, short y, short player)
 
     board[x][y] = player;
     // record format: (x,y,player)[\n]
-    std::string tempString = "(" + std::to_string(x) + "," + std::to_string(y)
-                      + "," + std::to_string(player) + ")\n";
-    moves += tempString;
+    QString tempString = "(" + QString::number(x) + "," + QString::number(y)
+                      + "," + QString::number(player) + ")\n";
+    moves.append(tempString);
     return true;
 }
 
@@ -48,7 +48,7 @@ short hexBoard::getTurn()
     return turn;
 }
 
-std::string hexBoard::getMoves()
+QString hexBoard::getMoves()
 {
     return moves;
 }

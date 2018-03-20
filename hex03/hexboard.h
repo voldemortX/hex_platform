@@ -20,14 +20,14 @@ public:
     bool clearBoard();
     void setTurn(short turnIn);
     short getTurn();
-    std::string getMoves();
+    QString getMoves();
 
 private:
     short status;  // 0: Ongoing, 1: Red won, 2: Blue won, -1: Pending(Nada)
     short who;  // 0: red is thinking, 1: blue is thinking
     short turn;  // 0: red's turn, 1: blue's turn
     short board[13][13];  // indices start from 1, 0: nothing, 1: red, 2:blue
-    std::string moves;  // history
+    QString moves;  // history
     bool searchBoard(short type,short posx,short posy,short flag[][13]);
     const short RED=1;
     const short BLUE=2;
