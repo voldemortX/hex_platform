@@ -22,6 +22,13 @@
     <height>761</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>13</pointsize>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Hex_Platform v1.0 @ Xian Studio</string>
   </property>
@@ -487,7 +494,7 @@
      <rect>
       <x>270</x>
       <y>660</y>
-      <width>171</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -499,7 +506,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Start/Clear</string>
+     <string>Start</string>
     </property>
     <property name="autoDefault">
      <bool>false</bool>
@@ -514,9 +521,9 @@
    <widget class="QPushButton" name="buttonSave">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>660</x>
       <y>660</y>
-      <width>81</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -543,7 +550,7 @@
    <widget class="QPushButton" name="buttonExchange">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>530</x>
       <y>660</y>
       <width>121</width>
       <height>31</height>
@@ -765,9 +772,9 @@
    <widget class="QLabel" name="timerRed">
     <property name="geometry">
      <rect>
-      <x>1070</x>
+      <x>1080</x>
       <y>80</y>
-      <width>71</width>
+      <width>81</width>
       <height>31</height>
      </rect>
     </property>
@@ -928,6 +935,19 @@
     </property>
     <property name="text">
      <string>Player 2</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="StopButton">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>660</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
     </property>
    </widget>
   </widget>

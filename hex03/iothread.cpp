@@ -46,6 +46,7 @@ void myThread::run()
 myThread::~myThread()
 {
     qDebug()<<"thread terminate";
+    proc->write("exit\n");
     proc->terminate();
     delete proc;
 }

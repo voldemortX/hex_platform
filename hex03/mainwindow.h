@@ -53,6 +53,10 @@ private slots:
     void refreshTimer();
     void refreshTimerLabel();
 
+    void on_pushButton_clicked();
+
+    void on_StopButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     hexBoard* hex;
@@ -75,7 +79,7 @@ private:
     QString blueExe;
     QString lastMove = "";
     bool exchangeflag;
-
+    bool isStop = 0;
     //void timeWin();
     void startGame();
     void resetTimer();

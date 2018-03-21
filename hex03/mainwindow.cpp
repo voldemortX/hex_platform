@@ -82,7 +82,7 @@ void MainWindow::receive_message(QByteArray response, int who)
     }
     else if (response[0] == 'm' && response[1] == 'o')
     {
-
+        if(isStop) return;
         QString lastMove = handleMove(response, who);
         if (lastMove == "")
         {
@@ -135,6 +135,10 @@ void MainWindow::on_buttonStart_clicked()
     {
         return;
     }
+    if(ui->labelStatus->text() == "Ongoing")
+    {
+        return;
+    }
     startGame();
     // careful with time
     p[BLUE-1]->write("start blue\n");
@@ -170,6 +174,8 @@ void MainWindow::startGame()
     clearPieces();
     ui->labelStatus->setText("Ongoing");
     ui->historyDisplay->setPlainText(hex->getMoves());
+    time[0] = time[1] = 0;
+    isStop = false;
     //refreshThreads();
     qDebug() << "/startGame()" << "\n";
 
@@ -220,12 +226,17 @@ void MainWindow::on_buttonLoadRed_clicked()
 {
     if(iothread[0]) return;
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
-    redExe = filePath;
+    if(filePath == "")return;
+    filePath = "\""+filePath+"\"";
     ui->redName->setText(filePath);
+    redExe = filePath;
     //refreshThreads();
     //if(iothread[0])
     //terminateThread(RED);
-    qDebug()<<"red exchange"<<exchangeflag;
+
+
+
+
     iothread[0] = new myThread(redExe, exchangeflag?1:0);
     connect(iothread[0],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
     connect(iothread[0],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
@@ -236,11 +247,13 @@ void MainWindow::on_buttonLoadBlue_clicked()
 {
     if(iothread[1]) return;
     QString filePath = QFileDialog::getOpenFileName(NULL, "xian studio says hi!", ".", "*.exe");
+    if(filePath == "")return;
+    filePath = "\""+filePath+"\"";
     blueExe = filePath;
     ui->blueName->setText(filePath);
     //refreshThreads();
     //terminateThread(BLUE);
-    qDebug()<<"blue exchange"<<exchangeflag;
+    //qDebug()<<"blue exchange"<<exchangeflag;
     iothread[1] = new myThread(blueExe, exchangeflag?0:1);
     connect(iothread[1],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
     connect(iothread[1],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
@@ -261,6 +274,11 @@ void MainWindow::on_buttonUnloadBlue_clicked()
     terminateThread(BLUE);
 }
 
+void MainWindow::on_StopButton_clicked()
+{
+    isStop = 1;
+    ui->labelStatus->setText("Stop");
+}
 void MainWindow::terminateThread(short x)
 {
     x -= 1;
@@ -350,7 +368,7 @@ void MainWindow::resetTimer()
 void MainWindow::refreshTimer()
 {
 
-    if(hex->getStatus() == 0)
+    if(hex->getStatus() == 0 && !isStop)
     {
         //unit of time is 0.1s
         time[hex->getWho()]++;
@@ -386,5 +404,3 @@ void MainWindow::refreshTimerLabel()
     // fucking inconsistent
     // QCoreApplication::processEvents();
 }
-
-
