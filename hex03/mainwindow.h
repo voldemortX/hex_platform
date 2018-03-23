@@ -48,14 +48,15 @@ private slots:
 
     void on_buttonSave_clicked();
 
+   // void on_pushButton_clicked();
+
+    void on_StopButton_clicked();
+
     void receive_message(QByteArray response, int who);
     void receive_process(QProcess* tp, int who);
     void refreshTimer();
     void refreshTimerLabel();
 
-    void on_pushButton_clicked();
-
-    void on_StopButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -78,8 +79,10 @@ private:
     QString redExe;
     QString blueExe;
     QString lastMove = "";
+    QByteArray moveRecover = "";
     bool exchangeflag;
-    bool isStop = 0;
+    short isStop = 0;
+
     //void timeWin();
     void startGame();
     void resetTimer();

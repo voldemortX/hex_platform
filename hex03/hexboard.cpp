@@ -14,6 +14,8 @@ hexBoard::~hexBoard()
 bool hexBoard::makeMove(short x, short y, short player)
 {
     // a player makes a move, players: 1-red, 2-blue
+    if(x<1 || x>11) return false;
+    if(y<1 || y>11) return false;
     if (board[x][y])
         return false;
 
@@ -94,6 +96,7 @@ short hexBoard::checkStatus()
 bool hexBoard::searchBoard(short type, short posx, short posy, short flag[][13])
 {
     // francis's dfs
+    if(!board[posx][posy]) return false;
     if(((type == RED) && (posx == 11))||((type == BLUE) && (posy == 11))) return 1;
     flag[posx][posy] = 1;
     short newx,newy;

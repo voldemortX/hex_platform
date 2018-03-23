@@ -33,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     //start a timer
     resetTimer();
-
     // nxp!
     //pieces[10][0].setGeometry(336, 500, pieceWidth, pieceHeight);
 
@@ -82,7 +81,14 @@ void MainWindow::receive_message(QByteArray response, int who)
     }
     else if (response[0] == 'm' && response[1] == 'o')
     {
-        if(isStop) return;
+        if(isStop==1)
+        {
+             isStop = 2;
+             moveRecover = response;
+             ui->labelStatus->setText("Stoped");
+             return;
+        }
+        if(isStop!=0) return;
         QString lastMove = handleMove(response, who);
         if (lastMove == "")
         {
@@ -175,7 +181,7 @@ void MainWindow::startGame()
     ui->labelStatus->setText("Ongoing");
     ui->historyDisplay->setPlainText(hex->getMoves());
     time[0] = time[1] = 0;
-    isStop = false;
+    isStop = 0;
     //refreshThreads();
     qDebug() << "/startGame()" << "\n";
 
@@ -234,9 +240,6 @@ void MainWindow::on_buttonLoadRed_clicked()
     //if(iothread[0])
     //terminateThread(RED);
 
-
-
-
     iothread[0] = new myThread(redExe, exchangeflag?1:0);
     connect(iothread[0],SIGNAL(set_process(QProcess*,int)),this,SLOT(receive_process(QProcess*,int)));
     connect(iothread[0],SIGNAL(send_message(QByteArray,int)),this,SLOT(receive_message(QByteArray,int)));
@@ -262,6 +265,7 @@ void MainWindow::on_buttonLoadBlue_clicked()
 
 void MainWindow::on_buttonUnloadRed_clicked()
 {
+    //if(ui->labelStatus->text()=="Ongoing") return;
     ui->redName->setText("Player 1");
     redExe = "";
     terminateThread(RED);
@@ -269,6 +273,7 @@ void MainWindow::on_buttonUnloadRed_clicked()
 
 void MainWindow::on_buttonUnloadBlue_clicked()
 {
+    //if(ui->labelStatus->text()=="Ongoing") return;
     ui->blueName->setText("Player 2");
     blueExe = "";
     terminateThread(BLUE);
@@ -276,8 +281,22 @@ void MainWindow::on_buttonUnloadBlue_clicked()
 
 void MainWindow::on_StopButton_clicked()
 {
-    isStop = 1;
-    ui->labelStatus->setText("Stop");
+    qDebug()<<isStop;
+    if(isStop == 0)
+    {
+        isStop = 1;
+        ui->labelStatus->setText("Stopping");
+        return;
+    }
+    if(isStop == 1) return;
+    if(isStop == 2)
+    {
+        ui->labelStatus->setText("Ongoing");
+        isStop = 0;
+        receive_message(moveRecover,(int)hex->getWho());
+        return;
+    }
+
 }
 void MainWindow::terminateThread(short x)
 {
@@ -301,6 +320,9 @@ void MainWindow::terminateThread(short x)
 
 void MainWindow::on_buttonExchange_clicked()
 {
+    if(ui->labelStatus->text()=="Ongoing") return;
+    //if(ui->labelStatus->text())
+    isStop = 0;
     QString temp = redExe;
     redExe = blueExe;
     blueExe = temp;
@@ -354,7 +376,7 @@ void MainWindow::resetTimer()
     timer_thread = new QThread(this);
     timer = new QTimer();
     timer ->moveToThread(timer_thread);
-    timer->setInterval(100);
+    timer->setInterval(10);
     connect(timer_thread,SIGNAL(started()),timer,SLOT(start()));
     //connect(timer,&QTimer::timeout,this,SLOT(refreshTimer()),Qt::DirectConnection);
     connect(timer,&QTimer::timeout,this,&MainWindow::refreshTimer,Qt::DirectConnection);
@@ -368,7 +390,7 @@ void MainWindow::resetTimer()
 void MainWindow::refreshTimer()
 {
 
-    if(hex->getStatus() == 0 && !isStop)
+    if(hex->getStatus() == 0 && isStop!=2)
     {
         //unit of time is 0.1s
         time[hex->getWho()]++;
@@ -391,16 +413,17 @@ void MainWindow::refreshTimer()
 }
 void MainWindow::refreshTimerLabel()
 {
-    int minute = time[0]/10 / 60;
-    int second = time[0]/10 % 60;
+    int minute = time[0]/100 / 60;
+    int second = time[0]/100 % 60;
     QString time_string;
     time_string = QString("%1:%2").arg(minute,2,10,QChar('0')).arg(second,2,10,QChar('0'));
     ui->timerRed->setText(time_string);
-    minute = time[1] /10 / 60;
-    second = time[1] /10 % 60;
+    minute = time[1] /100 / 60;
+    second = time[1] /100 % 60;
     time_string = QString("%1:%2").arg(minute,2,10,QChar('0')).arg(second,2,10,QChar('0'));
     ui->timerBlue->setText(time_string);
     //qDebug() << "board status: >>>>>" << hex->getStatus();
     // fucking inconsistent
     // QCoreApplication::processEvents();
 }
+// MainWindow::on_pushButton_clicked(){}
