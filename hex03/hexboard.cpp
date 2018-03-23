@@ -14,7 +14,7 @@ hexBoard::~hexBoard()
 bool hexBoard::makeMove(short x, short y, short player)
 {
     // a player makes a move, players: 1-red, 2-blue
-    if (board[x][y])
+    if (board[x][y]|| x < 0 || x > 11 || y < 0 || y > 11)
         return false;
 
     board[x][y] = player;
