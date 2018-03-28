@@ -30,7 +30,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Hex_Platform v1.0 @ Xian Studio</string>
+   <string>Hex_Platform v1.1 @ Xian Studio</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="Line" name="line">

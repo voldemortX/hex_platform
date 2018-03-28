@@ -109,6 +109,7 @@ QString MainWindow::handleMove(QByteArray response, int who)
     if(!hex->makeMove(x, y, who + 1))
     {
         p[who]->write("wrong\n");
+        ui->historyDisplay->setPlainText(hex->getMoves());
         return "";
     }
     setPic(x, y, who + 1);

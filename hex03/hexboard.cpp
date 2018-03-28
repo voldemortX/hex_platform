@@ -14,8 +14,14 @@ hexBoard::~hexBoard()
 bool hexBoard::makeMove(short x, short y, short player)
 {
     // a player makes a move, players: 1-red, 2-blue
-    if(x<1 || x>11) return false;
-    if(y<1 || y>11) return false;
+    if(x<1 || x>11||y<1 || y>11)
+    {
+        QString wrongString = "Wrong Move("+QString::number(x)+","+QString::number(y)+","+
+                QString::number(player)+")\n";
+        moves.append(wrongString);
+        return false;
+    }
+    //if(y<1 || y>11) return false;
     if (board[x][y])
         return false;
 
