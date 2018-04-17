@@ -95,6 +95,8 @@ void MainWindow::receive_message(QByteArray response, int who)
             hex->setStatus(-1);
             return;
         }
+        else if (lastMove == "w")
+            return;
         QString tempQ = "move " + lastMove + "\n";
         p[!who]->write(tempQ.toLatin1());
         hex->setWho(!who);
@@ -110,7 +112,7 @@ QString MainWindow::handleMove(QByteArray response, int who)
     {
         p[who]->write("wrong\n");
         ui->historyDisplay->setPlainText(hex->getMoves());
-        return "";
+        return "w";
     }
     setPic(x, y, who + 1);
    // Sleep(3000);
@@ -390,7 +392,7 @@ void MainWindow::resetTimer()
 
 void MainWindow::refreshTimer()
 {
-
+    qDebug() << "!!";
     if(hex->getStatus() == 0 && isStop!=2)
     {
         //unit of time is 0.1s
