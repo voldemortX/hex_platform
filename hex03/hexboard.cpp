@@ -23,7 +23,12 @@ bool hexBoard::makeMove(short x, short y, short player)
     }
     //if(y<1 || y>11) return false;
     if (board[x][y])
+    {
+        QString wrongString = "Wrong Move("+QString::number(x)+","+QString::number(y)+","+
+                QString::number(player)+")\n";
+        moves.append(wrongString);
         return false;
+    }
 
     board[x][y] = player;
     // record format: (x,y,player)[\n]
@@ -94,15 +99,16 @@ short hexBoard::checkStatus()
     status = 0;
     for(int i = 1;i <= 11 ;i++)
     {
-        if(searchBoard(RED,1,i,flag)) {status = 1;return 1;}
-        if(searchBoard(BLUE,i,1,flag)) {status = 2;return 2;}
+        if(searchBoard(RED,1,i,flag)) {status = 1;qDebug()<<i<<"Red";return 1;}
+        if(searchBoard(BLUE,i,1,flag)) {status = 2;qDebug()<<i<<"Blue";return 2;}
     }
     return status;
 }
 bool hexBoard::searchBoard(short type, short posx, short posy, short flag[][13])
 {
     // francis's dfs
-    if(!board[posx][posy]) return false;
+//    if(!board[posx][posy]) return false;
+    if(board[posx][posy]!=type) return false;
     if(((type == RED) && (posx == 11))||((type == BLUE) && (posy == 11))) return 1;
     flag[posx][posy] = 1;
     short newx,newy;

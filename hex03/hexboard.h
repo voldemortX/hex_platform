@@ -4,7 +4,7 @@
 #include <QPainter>
 #include <QMessageBox>
 #include <QString>
-
+#include <QDebug>
 
 class hexBoard
 {
