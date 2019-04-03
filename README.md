@@ -1,2 +1,2 @@
 # hex_platform
-Hex platform built by qt
+Hex platform built using C++
